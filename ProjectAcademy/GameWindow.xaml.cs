@@ -36,7 +36,7 @@ namespace ProjectAcademy
             InitializeComponent();
             this.Width = _border * 3 + (_break * w) - _break;
             this.Height = _border * 4 + (_break * h);
-            FillArray(ref _verticalLine, w + 1, h); // +1 because last column (w=10, we need 11 columns)
+            FillArray(ref _verticalLine, w + 1, h); // +1 because last column (w=10, we need 11 columns)l
             FillArray(ref _horizontalLine, h + 1, w); // +1 because last row (w=10, we need 11 rows)
             SettingPositions();
             _start = new Point();
