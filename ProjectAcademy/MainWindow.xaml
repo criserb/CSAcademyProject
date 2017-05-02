@@ -1,0 +1,30 @@
+﻿<Window x:Class="ProjectAcademy.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectAcademy"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="550">
+    <Grid>
+        <Button x:Name="Btn_New_game" Content="New Game" HorizontalAlignment="Left" Margin="207,281,0,0" VerticalAlignment="Top" Width="140" Height="33" Click="New_game_Click"/>
+        <Button x:Name="Btn_Ranking" Content="Ranking" HorizontalAlignment="Left" Margin="207,314,0,0" VerticalAlignment="Top" Width="140" Height="34" Click="Ranking_Click"/>
+        <Button x:Name="Btn_Exit" Content="Exit" HorizontalAlignment="Left" Margin="207,348,0,0" VerticalAlignment="Top" Width="140" Height="33" Click="Exit_Click"/>
+        <!-- GenertateMaze -->
+        <Button x:Name="Btn_Generate_Maze" Content="Generate Labyrinth" HorizontalAlignment="Left" Margin="407,369,0,0" VerticalAlignment="Top" Width="125" Height="40" Click="Btn_Generate_Maze_Click" Visibility="Visible"/>
+        <Button x:Name="Btn_Back" Content="Back" HorizontalAlignment="Left" Margin="10,369,0,0" VerticalAlignment="Top" Width="125" Height="40" Click="Btn_Back_Click" Visibility="Visible"/>
+
+        <GroupBox x:Name="groupBoxlabyrinthDiemnsion" Header="Dimension of labyrinth" HorizontalAlignment="Left" Margin="10,267,0,0" VerticalAlignment="Top" Height="88" Width="522" Visibility="Visible">
+            <Grid>
+                <Label x:Name="lbl_Width" Content="Width:" HorizontalAlignment="Left" Margin="70,7,0,0" VerticalAlignment="Top" Visibility="Visible" Width="48"/>
+                <Label x:Name="lbl_Height" Content="Height:" HorizontalAlignment="Left" Margin="70,35,0,0" VerticalAlignment="Top" Visibility="Visible"/>
+
+                <TextBox x:Name="textBox_Width" Text="{Binding ElementName=slider_Width, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="118,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="89" Visibility="Visible"/>
+                <TextBox x:Name="textBox_Height" Text="{Binding ElementName=slider_Height, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="118,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="89" Visibility="Visible"/>
+
+                <Slider x:Name="slider_Width" HorizontalAlignment="Left" Margin="264,10,0,0" VerticalAlignment="Top" Width="120" Height="23" ValueChanged="slider_Width_ValueChanged" Maximum="60" SmallChange="1" Interval="1" Minimum="10" Visibility="Visible"/>
+                <Slider x:Name="slider_Height" HorizontalAlignment="Left" Margin="264,38,0,0" VerticalAlignment="Top" Width="120" Height="23" ValueChanged="slider_Height_ValueChanged" Maximum="30" SmallChange="1" Interval="1" Minimum="10" Visibility="Visible" />
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>
