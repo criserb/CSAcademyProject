@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectAcademy"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="550">
+        Title="MainWindow" Height="450" Width="550" ResizeMode="NoResize">
     <Grid>
         <Button x:Name="Btn_New_game" Content="New Game" HorizontalAlignment="Left" Margin="207,281,0,0" VerticalAlignment="Top" Width="140" Height="33" Click="New_game_Click"/>
         <Button x:Name="Btn_Ranking" Content="Ranking" HorizontalAlignment="Left" Margin="207,314,0,0" VerticalAlignment="Top" Width="140" Height="34" Click="Ranking_Click"/>
         <Button x:Name="Btn_Exit" Content="Exit" HorizontalAlignment="Left" Margin="207,348,0,0" VerticalAlignment="Top" Width="140" Height="33" Click="Exit_Click"/>
         <!-- GenertateMaze -->
-        <Button x:Name="Btn_Generate_Maze" Content="Generate Labyrinth" HorizontalAlignment="Left" Margin="407,369,0,0" VerticalAlignment="Top" Width="125" Height="40" Click="Btn_Generate_Maze_Click" Visibility="Visible"/>
+        <Button x:Name="Btn_Generate_Maze" Content="Generate Maze" HorizontalAlignment="Left" Margin="407,369,0,0" VerticalAlignment="Top" Width="125" Height="40" Click="Btn_Generate_Maze_Click" Visibility="Visible"/>
         <Button x:Name="Btn_Back" Content="Back" HorizontalAlignment="Left" Margin="10,369,0,0" VerticalAlignment="Top" Width="125" Height="40" Click="Btn_Back_Click" Visibility="Visible"/>
 
         <GroupBox x:Name="groupBoxlabyrinthDiemnsion" Header="Dimension of labyrinth" HorizontalAlignment="Left" Margin="10,267,0,0" VerticalAlignment="Top" Height="88" Width="522" Visibility="Visible">

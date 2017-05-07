@@ -7,10 +7,20 @@ using System.Threading.Tasks;
 
 namespace ProjectAcademy
 {
-    class Point : GameWindow
+    public class Point : GameWindow
     {
         private int _x, _y;
-        static private Random rand = new Random();
+        public Point(int a, int b)
+        {
+            _x = a;
+            _y = b;
+        }
+        public Point(Point p)
+        {
+            _x = p.X;
+            _y = p.Y;
+        }
+        public Point() { }
         public int X
         {
             get { return _x; }
@@ -21,14 +31,6 @@ namespace ProjectAcademy
         {
             get { return _y; }
             set { _y = value; }
-        }
-        /// <summary>
-        /// Generate random point from minValue to max Value
-        /// </summary>
-        public void RandomPoint(int minValue, int maxValue)
-        {
-            this._x = rand.Next(minValue, maxValue);
-            this._y = rand.Next(minValue, maxValue);
         }
     }
 }
