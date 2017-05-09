@@ -16,18 +16,16 @@ namespace ProjectAcademy
 {
     class Player : GameWindow
     {
-        private Point _position;
+        private Point _position, _startPosition;
         private Ellipse _avatar;
-        private Point _startPosition;
         /// <summary>
         /// Initialize player position in myPoint
         /// </summary>
         public Player(Point myPoint)
         {
-            _startPosition = new Point(myPoint.X * lineLengh + bound, myPoint.Y * lineLengh + bound);
+            _startPosition = new Point(myPoint);
             _position = new Point(_startPosition);
         }
-
         public Point Position
         {
             get { return _position; }
@@ -40,7 +38,7 @@ namespace ProjectAcademy
             _avatar = new Ellipse();
 
             // Set position of the ellipse
-            _avatar.Margin = new Thickness(_startPosition.X, _startPosition.Y, 0, 0);
+            _avatar.Margin = new Thickness(_startPosition.X * lineLengh + bound, _startPosition.Y * lineLengh + bound, 0, 0);
 
             // Create a SolidColorBrush with a red color to fill the 
             // Ellipse with.
@@ -66,21 +64,71 @@ namespace ProjectAcademy
             myCanvas.Children.Add(_avatar);
             grid.Children.Add(myCanvas);
         }
-        public void UpdatePosition(int updatedXCoord, int updatedYCoord)
+        public void UpdatePosition(Point position)
         {
-            _avatar.Margin = new Thickness(updatedXCoord, updatedYCoord, 0, 0);
+            _avatar.Margin = new Thickness(position.X * lineLengh + bound, position.Y * lineLengh + bound, 0, 0);
         }
-        public bool Collision(int playerPositionX, int playerPositionY, int rows, int cols)
+        public bool Collision(int playerPositionX, int playerPositionY, Point dim)
         {
-                if (playerPositionX >= bound &&
-                playerPositionX < bound + cols * lineLengh &&
-                playerPositionY >= bound &&
-                playerPositionY < bound + rows * lineLengh
-                )
+            if (playerPositionX >= 0 &&
+            playerPositionX < dim.X &&
+            playerPositionY >= 0 &&
+            playerPositionY < dim.Y)
             {
                 return false;
             }
             else return true;
         }
+        //    public bool Collision(Point position, Cell[,] cell, direction dir)
+        //    {
+        //        switch (dir)
+        //        {
+        //            case direction.up:
+        //                if (!cell[position.Y, position.X].NorthWall)
+        //                {
+        //                    if (position.X - 1 <= 0)
+        //                    {
+        //                        return false;
+        //                    }
+        //                    else if (!cell[position.Y, position.X - 1].SouthWall) return false;
+        //                    return true;
+        //                }
+        //                else return true;
+        //            case direction.down:
+        //                if (!cell[position.Y, position.X].SouthWall)
+        //                {
+        //                    if (position.X + 1 >= h)
+        //                    {
+        //                        return false;
+        //                    }
+        //                    else if (!cell[position.Y, position.X + 1].NorthWall) return false;
+        //                    return true;
+        //                }
+        //                else return true;
+        //            case direction.right:
+        //                if (!cell[position.Y, position.X].EastWall)
+        //                {
+        //                    if (position.Y + 1 >= w)
+        //                    {
+        //                        return false;
+        //                    }
+        //                    else if (!cell[position.Y + 1, position.X].WestWall) return false;
+        //                    return true;
+        //                }
+        //                else return true;
+        //            case direction.left:
+        //                if (!cell[position.Y, position.X].WestWall)
+        //                {
+        //                    if (position.Y + 1 >= 0)
+        //                    {
+        //                        return false;
+        //                    }
+        //                    else if (!cell[position.Y - 1, position.X].EastWall) return false;
+        //                    return true;
+        //                }
+        //                else return true;
+        //        }
+        //        return true;
+        //    }
     }
 }

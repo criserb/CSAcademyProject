@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectAcademy
 {
-    class Cell
+    public class Cell
     {
         private bool _northWall = true;
         private bool _southWall = true;

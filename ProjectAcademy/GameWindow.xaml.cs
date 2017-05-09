@@ -24,6 +24,8 @@ namespace ProjectAcademy
         private Point _dim;
         private int _count = 0;
         static protected Random rand = new Random();
+        protected direction dir;
+        protected int w, h;
         protected const int lineLengh = 20;
         protected const int bound = 25;
         private Point _start, _exit;
@@ -34,7 +36,8 @@ namespace ProjectAcademy
         public GameWindow(int w, int h)
         {
             InitializeComponent();
-            InitializeObjects(w, h);
+            this.w = w; this.h = h;
+            InitializeObjects();
             this.Width = bound * 3 + (lineLengh * w) - lineLengh;
             this.Height = bound * 4 + (lineLengh * h);
             // Setting position of objects on grid
@@ -44,14 +47,23 @@ namespace ProjectAcademy
             // Render player at start position
             _player.Render(gameGrid);
         }
-        private void InitializeObjects(int w, int h)
+        private void InitializeObjects()
         {
             // Generate start and exit point
-            this._start = new Point(0, RandomInt(0, h));
-            this._exit = new Point(w, RandomInt(0, h));
+            this._start = new Point(0, 6);// RandomInt(0, h));
+            MessageBox.Show("Start: " + _start.X.ToString() + " " + _start.Y.ToString());
+            this._exit = new Point(w - 1, 6);// RandomInt(0, h));
             this._dim = new Point(w, h);
             this._maze = new Maze(w, h, _start, _exit);
             this._player = new Player(_start);
+            MessageBox.Show("Player_position" + _player.Position.X.ToString() + " " + _player.Position.Y.ToString());
+        }
+        public enum direction
+        {
+            up,
+            down,
+            right,
+            left
         }
         private void Btn_Back_Click(object sender, RoutedEventArgs e)
         {
@@ -65,37 +77,37 @@ namespace ProjectAcademy
             {
                 case Key.Up:
                     {
-                        if (!_player.Collision(_player.Position.X, _player.Position.Y - lineLengh, _dim.Y, _dim.X))
+                        if (!_player.Collision(_player.Position.X, _player.Position.Y - 1, _dim))
                         {
-                            _player.Position.Y -= lineLengh;
-                            _player.UpdatePosition(_player.Position.X, _player.Position.Y);
+                            _player.Position.Y--;
+                            _player.UpdatePosition(_player.Position);
                         }
                         break;
                     }
                 case Key.Down:
                     {
-                        if (!_player.Collision(_player.Position.X, _player.Position.Y + lineLengh, _dim.Y, _dim.X))
+                        if (!_player.Collision(_player.Position.X, _player.Position.Y + 1, _dim))
                         {
-                            _player.Position.Y += lineLengh;
-                            _player.UpdatePosition(_player.Position.X, _player.Position.Y);
+                            _player.Position.Y++;
+                            _player.UpdatePosition(_player.Position);
                         }
                         break;
                     }
                 case Key.Left:
                     {
-                        if (!_player.Collision(_player.Position.X - lineLengh, _player.Position.Y, _dim.Y, _dim.X))
+                        if (!_player.Collision(_player.Position.X - 1, _player.Position.Y, _dim))
                         {
-                            _player.Position.X -= lineLengh;
-                            _player.UpdatePosition(_player.Position.X, _player.Position.Y);
+                            _player.Position.X--;
+                            _player.UpdatePosition(_player.Position);
                         }
                         break;
                     }
                 case Key.Right:
                     {
-                        if (!_player.Collision(_player.Position.X + lineLengh, _player.Position.Y, _dim.Y, _dim.X))
+                        if (!_player.Collision(_player.Position.X + 1, _player.Position.Y, _dim))
                         {
-                            _player.Position.X += lineLengh;
-                            _player.UpdatePosition(_player.Position.X, _player.Position.Y);
+                            _player.Position.X++;
+                            _player.UpdatePosition(_player.Position);
                         }
                         break;
                     }

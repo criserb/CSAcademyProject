@@ -19,7 +19,7 @@ namespace ProjectAcademy
         private const int _lineThickness = 1;
         private int _width, _height;
         private Point _start, _exit;
-        private Cell[,] _cells = new Cell[0, 0];
+        public Cell[,] _cells = new Cell[0, 0];
         public Maze(int w, int h, Point s, Point e)
         {
             this._start = s; this._exit = e;
@@ -27,8 +27,12 @@ namespace ProjectAcademy
             // Filling cell array
             FillArray(ref _cells, w, h);
             _cells[_start.Y, _start.X].WestWall = false;
-            //_cells[_exit.X, _exit.Y].EastWall = false;
-
+            _cells[_exit.Y, _exit.X].EastWall = false;
+            for (int i = 0; i < 10; i++)
+            {
+                _cells[6, i].EastWall = false;
+                _cells[6, i].WestWall = false;
+            }
         }
         /// <summary>
         /// Create or Remove a line
