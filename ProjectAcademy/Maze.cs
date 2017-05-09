@@ -16,20 +16,19 @@ namespace ProjectAcademy
 {
     public class Maze : GameWindow
     {
-        private bool[,] _verticalLine = new bool[0, 0];
-        private bool[,] _horizontalLine = new bool[0, 0];
-        private int width, height;
+        private const int _lineThickness = 1;
+        private int _width, _height;
         private Point _start, _exit;
+        private Cell[,] _cells = new Cell[0, 0];
         public Maze(int w, int h, Point s, Point e)
         {
             this._start = s; this._exit = e;
-            this.width = w; this.height = h;
-            // Filling line arrays
-            FillArray(ref _verticalLine, w + 1, h); // +1 because last column (w=10, we need 11 columns)
-            FillArray(ref _horizontalLine, h + 1, w); // +1 because last row (w=10, we need 11 rows)
-            // Setting start and exit
-            _verticalLine[this._start.X, this._start.Y] = false;
-            _verticalLine[this._exit.X, this._exit.Y] = false;
+            this._width = w; this._height = h;
+            // Filling cell array
+            FillArray(ref _cells, w, h);
+            _cells[_start.Y, _start.X].WestWall = false;
+            //_cells[_exit.X, _exit.Y].EastWall = false;
+
         }
         /// <summary>
         /// Create or Remove a line
@@ -40,63 +39,78 @@ namespace ProjectAcademy
             Line myLine = new Line();
             myLine.X1 = X1;
             myLine.Y1 = Y1;
-            myLine.X2 = X1 + X2;
-            myLine.Y2 = Y1 + Y2;
+            myLine.X2 = X2;
+            myLine.Y2 = Y2;
 
             // Create a red Brush
             SolidColorBrush redBrush = new SolidColorBrush();
             redBrush.Color = Colors.Red;
 
             // Set Line's width and color
-            myLine.StrokeThickness = 1;
+            myLine.StrokeThickness = _lineThickness;
             myLine.Stroke = redBrush;
 
             // Add line to the Grid.         
             if (toCreate) grid.Children.Add(myLine);
             else grid.Children.Remove(myLine);
         }
-
         public void RenderMaze(Grid grid)
         {
-            for (int i = 1; i <= width + 1; i++)
+            for (int i = 0; i < _width; i++)
             {
-                for (int j = 1; j < height + 1; j++)
+                for (int j = 0; j < _height; j++)
                 {
-                    switch (_verticalLine[i - 1, j - 1])
+                    if (_cells[i, j].NorthWall) // up
                     {
-                        case true:
-                            CreateLine(lineLengh * i, lineLengh * j, 0, lineLengh, true, grid);
-                            break;
-                        case false:
-                            CreateLine(lineLengh * i, lineLengh * j, 0, lineLengh, false, grid);
-                            break;
+                        CreateLine(lineLengh + j * lineLengh, lineLengh + i * lineLengh,
+                            (lineLengh + j * lineLengh) + lineLengh, lineLengh + i * lineLengh, true, grid);
                     }
-                }
-            }
-            for (int i = 1; i <= height + 1; i++)
-            {
-                for (int j = 1; j < width + 1; j++)
-                {
-                    switch (_horizontalLine[i - 1, j - 1])
+                    else
                     {
-                        case true:
-                            CreateLine(lineLengh * j, lineLengh * i, lineLengh, 0, true, grid);
-                            break;
-                        case false:
-                            CreateLine(lineLengh * i, lineLengh * j, 0, lineLengh, false, grid);
-                            break;
+                        CreateLine(lineLengh + j * lineLengh, lineLengh + i * lineLengh,
+                            (lineLengh + j * lineLengh) + lineLengh, lineLengh + i * lineLengh, false, grid);
+                    }
+                    if (_cells[i, j].SouthWall) // down
+                    {
+                        CreateLine(lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh + _lineThickness,
+                            lineLengh + (j * lineLengh) + lineLengh, lineLengh + (i * lineLengh) + lineLengh + _lineThickness, true, grid);
+                    }
+                    else
+                    {
+                        CreateLine(lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh + _lineThickness,
+                            lineLengh + (j * lineLengh) + lineLengh, lineLengh + (i * lineLengh) + lineLengh + _lineThickness, false, grid);
+                    }
+                    if (_cells[i, j].EastWall) // right
+                    {
+                        CreateLine(lineLengh + (j * lineLengh) + lineLengh + _lineThickness, lineLengh + i * lineLengh,
+                            lineLengh + (j * lineLengh) + lineLengh + _lineThickness, lineLengh + (i * lineLengh) + lineLengh, true, grid);
+                    }
+                    else
+                    {
+                        CreateLine(lineLengh + (j * lineLengh) + lineLengh, lineLengh + i * lineLengh,
+                            lineLengh + (j * lineLengh) + lineLengh, lineLengh + (i * lineLengh) + lineLengh, false, grid);
+                    }
+                    if (_cells[i, j].WestWall) // left
+                    {
+                        CreateLine(lineLengh + j * lineLengh, lineLengh + i * lineLengh,
+                            lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh, true, grid);
+                    }
+                    else
+                    {
+                        CreateLine(lineLengh + j * lineLengh, lineLengh + i * lineLengh,
+                           lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh, false, grid);
                     }
                 }
             }
         }
-        private void FillArray(ref bool[,] LineList, int Row, int Col)
+        private void FillArray(ref Cell[,] LineList, int Row, int Col)
         {
             bool[] NestedList = new bool[Col];
             ResizeArray(ref LineList, Row, Col);
             for (int i = 0; i < Row; i++)
             {
                 for (int j = 0; j < Col; j++)
-                    LineList[i, j] = true;
+                    LineList[i, j] = new Cell();
             }
         }
         void ResizeArray<T>(ref T[,] original, int newCoNum, int newRoNum)
@@ -109,8 +123,5 @@ namespace ProjectAcademy
                 Array.Copy(original, co * columnCount, newArray, co * columnCount2, columnCount);
             original = newArray;
         }
-        /// <summary>
-        /// Generate random int from minValue to max Value
-        /// </summary>
     }
 }

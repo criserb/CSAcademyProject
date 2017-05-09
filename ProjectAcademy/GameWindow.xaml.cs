@@ -116,6 +116,9 @@ namespace ProjectAcademy
         {
             lbl_Time_Value.Content = (++_count).ToString();
         }
+        /// <summary>
+        /// Generate random int from minValue to max Value
+        /// </summary>
         public int RandomInt(int minValue, int maxValue)
         {
             return rand.Next(minValue, maxValue);
