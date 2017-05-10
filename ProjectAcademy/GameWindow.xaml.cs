@@ -24,11 +24,18 @@ namespace ProjectAcademy
         private Point _dim;
         private int _count = 0;
         static protected Random rand = new Random();
-        protected direction dir;
+        protected Direction dir;
         protected int w, h;
         protected const int lineLengh = 20;
         protected const int bound = 25;
         private Point _start, _exit;
+        public enum Direction
+        {
+            up,
+            down,
+            right,
+            left
+        }
         public GameWindow()
         {
             InitializeComponent();
@@ -42,6 +49,8 @@ namespace ProjectAcademy
             this.Height = bound * 4 + (lineLengh * h);
             // Setting position of objects on grid
             SettingPositions();
+            // Generate maze
+            //_maze.GenerateMaze();
             // Render maze
             _maze.RenderMaze(gameGrid);
             // Render player at start position
@@ -50,20 +59,14 @@ namespace ProjectAcademy
         private void InitializeObjects()
         {
             // Generate start and exit point
-            this._start = new Point(0, 6);// RandomInt(0, h));
-            MessageBox.Show("Start: " + _start.X.ToString() + " " + _start.Y.ToString());
-            this._exit = new Point(w - 1, 6);// RandomInt(0, h));
+            // TODO: generowac normalnie start i exit
+            this._start = new Point(0, RandomInt(0, h));
+            //MessageBox.Show("Start: " + _start.X.ToString() + " " + _start.Y.ToString());
+            //this._exit = new Point(w - 1, RandomInt(0, h));
             this._dim = new Point(w, h);
             this._maze = new Maze(w, h, _start, _exit);
             this._player = new Player(_start);
-            MessageBox.Show("Player_position" + _player.Position.X.ToString() + " " + _player.Position.Y.ToString());
-        }
-        public enum direction
-        {
-            up,
-            down,
-            right,
-            left
+           // MessageBox.Show("Player_position" + _player.Position.X.ToString() + " " + _player.Position.Y.ToString());
         }
         private void Btn_Back_Click(object sender, RoutedEventArgs e)
         {
@@ -77,37 +80,49 @@ namespace ProjectAcademy
             {
                 case Key.Up:
                     {
-                        if (!_player.Collision(_player.Position.X, _player.Position.Y - 1, _dim))
+                        if (!_player.MazeCollision(_player.Position.X, _player.Position.Y - 1, _dim))
                         {
-                            _player.Position.Y--;
-                            _player.UpdatePosition(_player.Position);
+                            if (!_player.WallCollision(_player.Position.X, _player.Position.Y, _maze.Cells, _dim, Direction.up))
+                            {
+                                _player.Position.Y--;
+                                _player.UpdatePosition(_player.Position);
+                            }
                         }
                         break;
                     }
                 case Key.Down:
                     {
-                        if (!_player.Collision(_player.Position.X, _player.Position.Y + 1, _dim))
+                        if (!_player.MazeCollision(_player.Position.X, _player.Position.Y + 1, _dim))
                         {
-                            _player.Position.Y++;
-                            _player.UpdatePosition(_player.Position);
+                            if (!_player.WallCollision(_player.Position.X, _player.Position.Y, _maze.Cells, _dim, Direction.down))
+                            {
+                                _player.Position.Y++;
+                                _player.UpdatePosition(_player.Position);
+                            }
                         }
                         break;
                     }
                 case Key.Left:
                     {
-                        if (!_player.Collision(_player.Position.X - 1, _player.Position.Y, _dim))
+                        if (!_player.MazeCollision(_player.Position.X - 1, _player.Position.Y, _dim))
                         {
-                            _player.Position.X--;
-                            _player.UpdatePosition(_player.Position);
+                            if (!_player.WallCollision(_player.Position.X, _player.Position.Y, _maze.Cells, _dim, Direction.left))
+                            {
+                                _player.Position.X--;
+                                _player.UpdatePosition(_player.Position);
+                            }
                         }
                         break;
                     }
                 case Key.Right:
                     {
-                        if (!_player.Collision(_player.Position.X + 1, _player.Position.Y, _dim))
+                        if (!_player.MazeCollision(_player.Position.X + 1, _player.Position.Y, _dim))
                         {
-                            _player.Position.X++;
-                            _player.UpdatePosition(_player.Position);
+                            if (!_player.WallCollision(_player.Position.X, _player.Position.Y, _maze.Cells, _dim, Direction.right))
+                            {
+                                _player.Position.X++;
+                                _player.UpdatePosition(_player.Position);
+                            }
                         }
                         break;
                     }

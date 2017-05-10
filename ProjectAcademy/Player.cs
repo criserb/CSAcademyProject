@@ -68,7 +68,7 @@ namespace ProjectAcademy
         {
             _avatar.Margin = new Thickness(position.X * lineLengh + bound, position.Y * lineLengh + bound, 0, 0);
         }
-        public bool Collision(int playerPositionX, int playerPositionY, Point dim)
+        public bool MazeCollision(int playerPositionX, int playerPositionY, Point dim)
         {
             if (playerPositionX >= 0 &&
             playerPositionX < dim.X &&
@@ -79,56 +79,37 @@ namespace ProjectAcademy
             }
             else return true;
         }
-        //    public bool Collision(Point position, Cell[,] cell, direction dir)
-        //    {
-        //        switch (dir)
-        //        {
-        //            case direction.up:
-        //                if (!cell[position.Y, position.X].NorthWall)
-        //                {
-        //                    if (position.X - 1 <= 0)
-        //                    {
-        //                        return false;
-        //                    }
-        //                    else if (!cell[position.Y, position.X - 1].SouthWall) return false;
-        //                    return true;
-        //                }
-        //                else return true;
-        //            case direction.down:
-        //                if (!cell[position.Y, position.X].SouthWall)
-        //                {
-        //                    if (position.X + 1 >= h)
-        //                    {
-        //                        return false;
-        //                    }
-        //                    else if (!cell[position.Y, position.X + 1].NorthWall) return false;
-        //                    return true;
-        //                }
-        //                else return true;
-        //            case direction.right:
-        //                if (!cell[position.Y, position.X].EastWall)
-        //                {
-        //                    if (position.Y + 1 >= w)
-        //                    {
-        //                        return false;
-        //                    }
-        //                    else if (!cell[position.Y + 1, position.X].WestWall) return false;
-        //                    return true;
-        //                }
-        //                else return true;
-        //            case direction.left:
-        //                if (!cell[position.Y, position.X].WestWall)
-        //                {
-        //                    if (position.Y + 1 >= 0)
-        //                    {
-        //                        return false;
-        //                    }
-        //                    else if (!cell[position.Y - 1, position.X].EastWall) return false;
-        //                    return true;
-        //                }
-        //                else return true;
-        //        }
-        //        return true;
-        //    }
+        public bool WallCollision(int playerPositionX, int playerPositionY, Cell[,] cell, Point dim, Direction dir)
+        {
+            switch (dir)
+            {
+
+                case Direction.up:
+                    if (!cell[playerPositionY, playerPositionX].NorthWall && !cell[playerPositionY - 1, playerPositionX].SouthWall)
+                    {
+                        return false;
+                    }
+                    else return true;
+                case Direction.down:
+                    if (!cell[playerPositionY, playerPositionX].SouthWall && !cell[playerPositionY + 1, playerPositionX].NorthWall)
+                    {
+                        return false;
+                    }
+                    else return true;
+                case Direction.right:
+                    if (!cell[playerPositionY, playerPositionX].EastWall && !cell[playerPositionY, playerPositionX + 1].WestWall)
+                    {
+                        return false;
+                    }
+                    else return true;
+                case Direction.left:
+                    if (!cell[playerPositionY, playerPositionX].WestWall && !cell[playerPositionY, playerPositionX - 1].EastWall)
+                    {
+                        return false;
+                    }
+                    else return true;
+            }
+            return false;
+        }
     }
 }

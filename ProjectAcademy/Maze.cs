@@ -19,21 +19,40 @@ namespace ProjectAcademy
         private const int _lineThickness = 1;
         private int _width, _height;
         private Point _start, _exit;
-        public Cell[,] _cells = new Cell[0, 0];
+        private Cell[,] _cells = new Cell[0, 0];
+        private Stack<Cell> _stackOfCells;
+        private Point _currentCell;
         public Maze(int w, int h, Point s, Point e)
         {
+            this._currentCell = new Point();
+            this._stackOfCells = new Stack<Cell>();
             this._start = s; this._exit = e;
             this._width = w; this._height = h;
             // Filling cell array
-            FillArray(ref _cells, w, h);
+            FillArray(ref _cells, h, w);
             _cells[_start.Y, _start.X].WestWall = false;
-            _cells[_exit.Y, _exit.X].EastWall = false;
-            for (int i = 0; i < 10; i++)
-            {
-                _cells[6, i].EastWall = false;
-                _cells[6, i].WestWall = false;
-            }
+            //_cells[_exit.Y, _exit.X].EastWall = false;
+            //test
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    //TODO:usunac te petle
+            //    _cells[6, i].EastWall = false;
+            //    _cells[6, i].WestWall = false;
+            //}
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    //TODO:usunac te petle
+            //    _cells[i, 5].NorthWall = false;
+            //    _cells[i, 5].SouthWall = false;
+            //}
+            // end test
         }
+        public Cell[,] Cells
+        {
+            get { return _cells; }
+            set { _cells = value; }
+        }
+
         /// <summary>
         /// Create or Remove a line
         /// </summary>
@@ -58,11 +77,21 @@ namespace ProjectAcademy
             if (toCreate) grid.Children.Add(myLine);
             else grid.Children.Remove(myLine);
         }
+        private bool AnyUnvisitedCells()
+        {
+            foreach (var item in Cells)
+            {
+                if (!item.Visited)
+                    return true;
+                else return false;
+            }
+            return true;
+        }
         public void RenderMaze(Grid grid)
         {
-            for (int i = 0; i < _width; i++)
+            for (int i = 0; i < _height; i++)
             {
-                for (int j = 0; j < _height; j++)
+                for (int j = 0; j < _width; j++)
                 {
                     if (_cells[i, j].NorthWall) // up
                     {
@@ -105,6 +134,15 @@ namespace ProjectAcademy
                            lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh, false, grid);
                     }
                 }
+            }
+        }
+        public void GenerateMaze()
+        {
+            while (AnyUnvisitedCells())
+            {
+                _currentCell.X = _start.Y; _currentCell.Y = _start.X;
+                _cells[_currentCell.X, _currentCell.Y].Visited = true;
+                //TODO: zrobic znajdowanie nieodwiedzonych sasiadow
             }
         }
         private void FillArray(ref Cell[,] LineList, int Row, int Col)
