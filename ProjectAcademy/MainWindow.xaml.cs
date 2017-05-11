@@ -31,7 +31,7 @@ namespace ProjectAcademy
             Close();
         }
         private void New_game_Click(object sender, RoutedEventArgs e)
-        {
+            {
             GenerateMazeViewGrid();
         }
 

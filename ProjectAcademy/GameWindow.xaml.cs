@@ -21,11 +21,11 @@ namespace ProjectAcademy
     {
         private Player _player;
         private Maze _maze;
+        // dimension of maze, _dim.X = width, _ dim.Y = height
         private Point _dim;
         private int _count = 0;
         static protected Random rand = new Random();
         protected Direction dir;
-        protected int w, h;
         protected const int lineLengh = 20;
         protected const int bound = 25;
         private Point _start, _exit;
@@ -43,14 +43,19 @@ namespace ProjectAcademy
         public GameWindow(int w, int h)
         {
             InitializeComponent();
-            this.w = w; this.h = h;
+            this._dim = new Point(w, h);
             InitializeObjects();
             this.Width = bound * 3 + (lineLengh * w) - lineLengh;
             this.Height = bound * 4 + (lineLengh * h);
             // Setting position of objects on grid
             SettingPositions();
             // Generate maze
-            //_maze.GenerateMaze();
+            _maze.GenerateMaze();
+            //test
+            //foreach (var item in _maze.AnyUnvisitedNeighbors())
+            //{
+            //    MessageBox.Show(item.ToString());
+            //}
             // Render maze
             _maze.RenderMaze(gameGrid);
             // Render player at start position
@@ -60,13 +65,13 @@ namespace ProjectAcademy
         {
             // Generate start and exit point
             // TODO: generowac normalnie start i exit
-            this._start = new Point(0, RandomInt(0, h));
-            //MessageBox.Show("Start: " + _start.X.ToString() + " " + _start.Y.ToString());
-            //this._exit = new Point(w - 1, RandomInt(0, h));
-            this._dim = new Point(w, h);
-            this._maze = new Maze(w, h, _start, _exit);
+            this._start = new Point(0, RandomInt(0, _dim.Y));
+            MessageBox.Show("Start: " + _start.X.ToString() + " " + _start.Y.ToString());
+            //this._exit = new Point(w - 1, RandomInt(0, _dim.Y));
+            this._maze = new Maze(_dim, _start, _exit);
             this._player = new Player(_start);
-           // MessageBox.Show("Player_position" + _player.Position.X.ToString() + " " + _player.Position.Y.ToString());
+            // MessageBox.Show("Player_position" + _player.Position.X.ToString() + " " + _player.Position.Y.ToString());
+            MessageBox.Show("Dim: " + _dim.X + " x " + _dim.Y);
         }
         private void Btn_Back_Click(object sender, RoutedEventArgs e)
         {
