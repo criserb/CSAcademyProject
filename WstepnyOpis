@@ -1,0 +1,14 @@
+Autorzy: Krzysztof Bądkowski, Łukasz Tybuszewski
+
+Naszym założeniem jest zrobienie mini gry polegające na odnalezieniu wyjścia z labiryntu.
+
+W pierwszym oknie aplikacji będą trzy przyciski: {New Game, Ranking, Exit}. Po wćiśnięciu New Game będziemy mogli wybrać rozmiar labiryntu i go wygenerować. Generowanie labiryntu będzie odbywało się za pomocą jednego z kilku algorytmów, które służą do generowania labiryntu (prawdopodobnie zostanie wykorzystane Recursive Backtracker Algorithm). W oknie, w którym ukaże się wygenerowany labirynt i gracz będzię widoczny przycisk wyjścia, a także licznik, który w sekundach liczy czas trwania rozgrywki. Gdy gracz odnajdzie wyjście z labiryntu ukaże się okno z gratulacjami i możliwością zapisu naszego rezultatu tj. jeśli gracz zdecyduje zapisać się swój wynik zostanie poproszony o podanie nazwy gracza i wtedy ukaże się ona w rankingu, który będzie dostępny pod przyciskiem Ranking.
+Większa część programu będzie napisana przy użyciu technologii WPF. Nasz ranking planujemy umieścić w bazie danych, w tym celu wykorzystamy bibliotekę SQLite. 
+
+Zadania
+Krzysztof:
+Generowanie labiryntu
+Łukasz:
+Grafika
+Wspólnie:
+Obsługa bazy danych
