@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Threading;
+
 //TODO: generowanie labiryntu
 namespace ProjectAcademy
 {
@@ -27,8 +29,10 @@ namespace ProjectAcademy
             this._start = s; this._exit = e;
             // Filling cell array
             FillArray(ref _cells, _dim.Y, _dim.X);
+            // Clear start wall
             _cells[_start.Y, _start.X].WestWall = false;
-            //_cells[_exit.Y, _exit.X].EastWall = false;
+            // Clear exit wall
+            _cells[_exit.Y, _exit.X].EastWall = false;
             //test
             //for (int i = 0; i < 10; i++)
             //{
@@ -73,16 +77,6 @@ namespace ProjectAcademy
             // Add line to the Grid.         
             if (toCreate) grid.Children.Add(myLine);
             else grid.Children.Remove(myLine);
-        }
-        private bool AnyUnvisitedCells()
-        {
-            foreach (var item in Cells)
-            {
-                if (!item.Visited)
-                    return true;
-                else return false;
-            }
-            return true;
         }
         public void RenderMaze(Grid grid)
         {
@@ -133,6 +127,15 @@ namespace ProjectAcademy
                 }
             }
         }
+        private bool AnyUnvisitedCells()
+        {
+            foreach (var item in Cells)
+            {
+                if (!item.Visited)
+                    return true;
+            }
+            return false;
+        }
         public List<Direction> AnyUnvisitedNeighbors(Point currentCell)
         {
             List<Direction> unvisitedNeighbors = new List<Direction>();
@@ -169,17 +172,18 @@ namespace ProjectAcademy
         }
         public void GenerateMaze()
         {
-            Point currentCell = new Point();
-            currentCell.X = _start.Y; currentCell.Y = _start.X;
+            Point currentCell = new Point(_start.Y, _start.X);
             _cells[currentCell.X, currentCell.Y].Visited = true;
             Stack<Point> stack = new Stack<Point>();
+            List<Direction> unvisitedNeighbors = new List<Direction>();
+            Direction dir;
             while (AnyUnvisitedCells())
             {
-                Direction dir;
-                if (AnyUnvisitedNeighbors(currentCell).Count != 0)
+                unvisitedNeighbors = AnyUnvisitedNeighbors(currentCell);
+                if (unvisitedNeighbors.Count != 0)
                 {
                     stack.Push(currentCell);
-                    dir = ChooseNeighbor(AnyUnvisitedNeighbors(currentCell));
+                    dir = ChooseNeighbor(unvisitedNeighbors);
                     if (dir == Direction.left)
                     {
                         _cells[currentCell.X, currentCell.Y].WestWall = false;
@@ -206,7 +210,7 @@ namespace ProjectAcademy
                     }
                     _cells[currentCell.X, currentCell.Y].Visited = true;
                 }
-                else if (stack.Count != 0)
+                else if (stack.Count > 0)
                 {
                     currentCell = stack.Pop();
                 }
