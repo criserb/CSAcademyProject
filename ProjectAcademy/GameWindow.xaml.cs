@@ -65,9 +65,9 @@ namespace ProjectAcademy
         {
             // Generate start and exit point
             // TODO: generowac normalnie start i exit
-            this._start = new Point(0, RandomInt(0, _dim.Y));
+            this._start = new Point(0, _dim.Y - 1);// RandomInt(0, _dim.Y));
             MessageBox.Show("Start: " + _start.X.ToString() + " " + _start.Y.ToString());
-            this._exit = new Point(_dim.X - 1, RandomInt(0, _dim.Y));
+            this._exit = new Point(_dim.X - 1, 0);//RandomInt(0, _dim.Y));
             this._maze = new Maze(_dim, _start, _exit);
             this._player = new Player(_start);
             // MessageBox.Show("Player_position" + _player.Position.X.ToString() + " " + _player.Position.Y.ToString());

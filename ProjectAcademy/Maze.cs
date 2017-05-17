@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Threading;
+using System.Collections;
 
 //TODO: generowanie labiryntu
 namespace ProjectAcademy
@@ -53,7 +54,6 @@ namespace ProjectAcademy
             get { return _cells; }
             set { _cells = value; }
         }
-
         /// <summary>
         /// Create or Remove a line
         /// </summary>
@@ -170,55 +170,74 @@ namespace ProjectAcademy
             myPoint = new Point();
             return myPoint;
         }
+        private bool UnvisitedCellFromQueue(ref Point currentCell, ref Queue<Point> queue)
+        {
+            Point temp = new Point();
+            do
+            {
+                if (queue.Count > 0)
+                {
+                    temp = queue.Dequeue();
+                }
+                else
+                    return false;
+            } while (AnyUnvisitedNeighbors(temp).Count <= 0);
+            currentCell = temp;
+            return true;
+        }
+        private void BreakWalls(ref Point currentCell, Direction dir)
+        {
+            if (dir == Direction.left)
+            {
+                _cells[currentCell.X, currentCell.Y].WestWall = false;
+                _cells[currentCell.X, currentCell.Y - 1].EastWall = false;
+                currentCell.Y--;
+            }
+            else if (dir == Direction.right)
+            {
+                _cells[currentCell.X, currentCell.Y].EastWall = false;
+                _cells[currentCell.X, currentCell.Y + 1].WestWall = false;
+                currentCell.Y++;
+            }
+            else if (dir == Direction.up)
+            {
+                _cells[currentCell.X, currentCell.Y].NorthWall = false;
+                _cells[currentCell.X - 1, currentCell.Y].SouthWall = false;
+                currentCell.X--;
+            }
+            else if (dir == Direction.down)
+            {
+                _cells[currentCell.X, currentCell.Y].SouthWall = false;
+                _cells[currentCell.X + 1, currentCell.Y].NorthWall = false;
+                currentCell.X++;
+            }
+        }
         public void GenerateMaze()
         {
             Point currentCell = new Point(_start.Y, _start.X);
-            _cells[currentCell.X, currentCell.Y].Visited = true;
-            Stack<Point> stack = new Stack<Point>();
+            Queue<Point> queue = new Queue<Point>();
             List<Direction> unvisitedNeighbors = new List<Direction>();
             Direction dir;
-            while (AnyUnvisitedCells())
+
+            Step2:
+            queue.Enqueue(currentCell);
+            _cells[currentCell.X, currentCell.Y].Visited = true;
+
+            Step4:
+            unvisitedNeighbors = AnyUnvisitedNeighbors(currentCell);
+
+            if (unvisitedNeighbors.Count <= 0) // All the neighbors of current cell have been visited
             {
-                unvisitedNeighbors = AnyUnvisitedNeighbors(currentCell);
-                if (unvisitedNeighbors.Count != 0)
-                {
-                    stack.Push(currentCell);
-                    dir = ChooseNeighbor(unvisitedNeighbors);
-                    if (dir == Direction.left)
-                    {
-                        _cells[currentCell.X, currentCell.Y].WestWall = false;
-                        _cells[currentCell.X, currentCell.Y - 1].EastWall = false;
-                        currentCell.Y--;
-                    }
-                    else if (dir == Direction.right)
-                    {
-                        _cells[currentCell.X, currentCell.Y].EastWall = false;
-                        _cells[currentCell.X, currentCell.Y + 1].WestWall = false;
-                        currentCell.Y++;
-                    }
-                    else if (dir == Direction.up)
-                    {
-                        _cells[currentCell.X, currentCell.Y].NorthWall = false;
-                        _cells[currentCell.X - 1, currentCell.Y].SouthWall = false;
-                        currentCell.X--;
-                    }
-                    else if (dir == Direction.down)
-                    {
-                        _cells[currentCell.X, currentCell.Y].SouthWall = false;
-                        _cells[currentCell.X + 1, currentCell.Y].NorthWall = false;
-                        currentCell.X++;
-                    }
-                    _cells[currentCell.X, currentCell.Y].Visited = true;
-                }
-                else if (stack.Count > 0)
-                {
-                    currentCell = stack.Pop();
-                }
+                if (UnvisitedCellFromQueue(ref currentCell, ref queue))
+                    goto Step4;
                 else
-                {
-                    currentCell = RandomUnvisitedCell();
-                    _cells[currentCell.X, currentCell.Y].Visited = true;
-                }
+                    return;
+            }
+            else
+            {
+                dir = ChooseNeighbor(unvisitedNeighbors);
+                BreakWalls(ref currentCell, dir);
+                goto Step2;
             }
         }
         private void FillArray(ref Cell[,] LineList, int Row, int Col)
