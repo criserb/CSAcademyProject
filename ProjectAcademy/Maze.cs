@@ -127,15 +127,6 @@ namespace ProjectAcademy
                 }
             }
         }
-        private bool AnyUnvisitedCells()
-        {
-            foreach (var item in Cells)
-            {
-                if (!item.Visited)
-                    return true;
-            }
-            return false;
-        }
         public List<Direction> AnyUnvisitedNeighbors(Point currentCell)
         {
             List<Direction> unvisitedNeighbors = new List<Direction>();
@@ -191,25 +182,25 @@ namespace ProjectAcademy
             {
                 _cells[currentCell.X, currentCell.Y].WestWall = false;
                 _cells[currentCell.X, currentCell.Y - 1].EastWall = false;
-                currentCell.Y--;
+                currentCell = new Point(currentCell.X, currentCell.Y - 1);
             }
             else if (dir == Direction.right)
             {
                 _cells[currentCell.X, currentCell.Y].EastWall = false;
                 _cells[currentCell.X, currentCell.Y + 1].WestWall = false;
-                currentCell.Y++;
+                currentCell = new Point(currentCell.X, currentCell.Y + 1);
             }
             else if (dir == Direction.up)
             {
                 _cells[currentCell.X, currentCell.Y].NorthWall = false;
                 _cells[currentCell.X - 1, currentCell.Y].SouthWall = false;
-                currentCell.X--;
+                currentCell = new Point(currentCell.X-1, currentCell.Y );
             }
             else if (dir == Direction.down)
             {
                 _cells[currentCell.X, currentCell.Y].SouthWall = false;
                 _cells[currentCell.X + 1, currentCell.Y].NorthWall = false;
-                currentCell.X++;
+                currentCell = new Point(currentCell.X + 1, currentCell.Y);
             }
         }
         public void GenerateMaze()

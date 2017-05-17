@@ -22,8 +22,8 @@
                 <TextBox x:Name="textBox_Width" Text="{Binding ElementName=slider_Width, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="118,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="89" Visibility="Visible"/>
                 <TextBox x:Name="textBox_Height" Text="{Binding ElementName=slider_Height, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="118,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="89" Visibility="Visible"/>
 
-                <Slider x:Name="slider_Width" HorizontalAlignment="Left" Margin="264,10,0,0" VerticalAlignment="Top" Width="120" Height="23" ValueChanged="slider_Width_ValueChanged" Maximum="60" SmallChange="1" Interval="1" Minimum="5" Visibility="Visible"/>
-                <Slider x:Name="slider_Height" HorizontalAlignment="Left" Margin="264,38,0,0" VerticalAlignment="Top" Width="120" Height="23" ValueChanged="slider_Height_ValueChanged" Maximum="30" SmallChange="1" Interval="1" Minimum="5" Visibility="Visible" />
+                <Slider x:Name="slider_Width" HorizontalAlignment="Left" Margin="264,10,0,0" VerticalAlignment="Top" Width="120" Height="23" ValueChanged="slider_Width_ValueChanged" Maximum="60" SmallChange="1" Interval="1" Minimum="10" Visibility="Visible"/>
+                <Slider x:Name="slider_Height" HorizontalAlignment="Left" Margin="264,38,0,0" VerticalAlignment="Top" Width="120" Height="23" ValueChanged="slider_Height_ValueChanged" Maximum="30" SmallChange="1" Interval="1" Minimum="10" Visibility="Visible" />
             </Grid>
         </GroupBox>
     </Grid>
