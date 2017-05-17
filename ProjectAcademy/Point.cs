@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjectAcademy
 {
-    public class Point : GameWindow
+    public class Point
     {
         private int _x, _y;
         public Point(int a, int b)
