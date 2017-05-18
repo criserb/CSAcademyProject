@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace ProjectAcademy
 {
@@ -24,6 +25,7 @@ namespace ProjectAcademy
         // dimension of maze, _dim.X = width, _ dim.Y = height
         private Point _dim;
         private int _count = 0;
+        private bool _stopCounting = false;
         static protected Random rand = new Random();
         protected Direction dir;
         protected const int lineLengh = 20;
@@ -43,6 +45,9 @@ namespace ProjectAcademy
         public GameWindow(int w, int h)
         {
             InitializeComponent();
+            if (w > (SystemParameters.WorkArea.Width / lineLengh - 2) / 2 &&
+                h > (SystemParameters.WorkArea.Height / lineLengh - 2) / 2)
+                this.WindowState = WindowState.Maximized;
             this._dim = new Point(w, h);
             InitializeObjects();
             this.Width = bound * 3 + (lineLengh * w) - lineLengh;
@@ -51,11 +56,6 @@ namespace ProjectAcademy
             SettingPositions();
             // Generate maze
             _maze.GenerateMaze();
-            //test
-            //foreach (var item in _maze.AnyUnvisitedNeighbors())
-            //{
-            //    MessageBox.Show(item.ToString());
-            //}
             // Render maze
             _maze.RenderMaze(gameGrid);
             // Render player at start position
@@ -64,7 +64,6 @@ namespace ProjectAcademy
         private void InitializeObjects()
         {
             // Generate start and exit point
-            // TODO: generowac normalnie start i exit
             this._start = new Point(0, _dim.Y - 1);// RandomInt(0, _dim.Y));
             MessageBox.Show("Start: " + _start.X.ToString() + " " + _start.Y.ToString());
             this._exit = new Point(_dim.X - 1, 0);//RandomInt(0, _dim.Y));
@@ -121,6 +120,15 @@ namespace ProjectAcademy
                     }
                 case Key.Right:
                     {
+                        if (_player.Position.X == _dim.X - 1 && _player.Position.Y == 0)
+                        {
+                            _player.Position.X++;
+                            _player.UpdatePosition(_player.Position);
+                            _player.Remove(gameGrid);
+                            _stopCounting = true;
+                            Thread.Sleep(200);
+                            MessageBox.Show("Gratulacje! Udało Ci się ukończyć labirynt w  " + lbl_Time_Value.Content.ToString() + " sekund!");
+                        }
                         if (!_player.MazeCollision(_player.Position.X + 1, _player.Position.Y, _dim))
                         {
                             if (!_player.WallCollision(_player.Position.X, _player.Position.Y, _maze.Cells, _dim, Direction.right))
@@ -146,7 +154,8 @@ namespace ProjectAcademy
         }
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            lbl_Time_Value.Content = (++_count).ToString();
+            if (!_stopCounting)
+                lbl_Time_Value.Content = (++_count).ToString();
         }
         /// <summary>
         /// Generate random int from minValue to max Value

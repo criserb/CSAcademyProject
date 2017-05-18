@@ -1,20 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Threading;
-using System.Collections;
 
-//TODO: generowanie labiryntu
 namespace ProjectAcademy
 {
     public class Maze : GameWindow
@@ -28,26 +17,12 @@ namespace ProjectAcademy
         {
             this._dim = new Point(dim);
             this._start = s; this._exit = e;
-            // Filling cell array
+            // Filling array of cells
             FillArray(ref _cells, _dim.Y, _dim.X);
             // Clear start wall
             _cells[_start.Y, _start.X].WestWall = false;
             // Clear exit wall
             _cells[_exit.Y, _exit.X].EastWall = false;
-            //test
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    //TODO:usunac te petle
-            //    _cells[6, i].EastWall = false;
-            //    _cells[6, i].WestWall = false;
-            //}
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    //TODO:usunac te petle
-            //    _cells[i, 5].NorthWall = false;
-            //    _cells[i, 5].SouthWall = false;
-            //}
-            // end test
         }
         public Cell[,] Cells
         {
@@ -57,7 +32,7 @@ namespace ProjectAcademy
         /// <summary>
         /// Create or Remove a line
         /// </summary>
-        public void CreateLine(int X1, int Y1, int X2, int Y2, bool toCreate, Grid grid)
+        private void CreateLine(int X1, int Y1, int X2, int Y2, bool toCreate, Grid grid)
         {
             // Create a Line
             Line myLine = new Line();
@@ -78,56 +53,8 @@ namespace ProjectAcademy
             if (toCreate) grid.Children.Add(myLine);
             else grid.Children.Remove(myLine);
         }
-        public void RenderMaze(Grid grid)
-        {
-            for (int i = 0; i < _dim.Y; i++)
-            {
-                for (int j = 0; j < _dim.X; j++)
-                {
-                    if (_cells[i, j].NorthWall) // up
-                    {
-                        CreateLine(lineLengh + j * lineLengh, lineLengh + i * lineLengh,
-                            (lineLengh + j * lineLengh) + lineLengh, lineLengh + i * lineLengh, true, grid);
-                    }
-                    else
-                    {
-                        CreateLine(lineLengh + j * lineLengh, lineLengh + i * lineLengh,
-                            (lineLengh + j * lineLengh) + lineLengh, lineLengh + i * lineLengh, false, grid);
-                    }
-                    if (_cells[i, j].SouthWall) // down
-                    {
-                        CreateLine(lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh + _lineThickness,
-                            lineLengh + (j * lineLengh) + lineLengh, lineLengh + (i * lineLengh) + lineLengh + _lineThickness, true, grid);
-                    }
-                    else
-                    {
-                        CreateLine(lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh + _lineThickness,
-                            lineLengh + (j * lineLengh) + lineLengh, lineLengh + (i * lineLengh) + lineLengh + _lineThickness, false, grid);
-                    }
-                    if (_cells[i, j].EastWall) // right
-                    {
-                        CreateLine(lineLengh + (j * lineLengh) + lineLengh + _lineThickness, lineLengh + i * lineLengh,
-                            lineLengh + (j * lineLengh) + lineLengh + _lineThickness, lineLengh + (i * lineLengh) + lineLengh, true, grid);
-                    }
-                    else
-                    {
-                        CreateLine(lineLengh + (j * lineLengh) + lineLengh, lineLengh + i * lineLengh,
-                            lineLengh + (j * lineLengh) + lineLengh, lineLengh + (i * lineLengh) + lineLengh, false, grid);
-                    }
-                    if (_cells[i, j].WestWall) // left
-                    {
-                        CreateLine(lineLengh + j * lineLengh, lineLengh + i * lineLengh,
-                            lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh, true, grid);
-                    }
-                    else
-                    {
-                        CreateLine(lineLengh + j * lineLengh, lineLengh + i * lineLengh,
-                           lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh, false, grid);
-                    }
-                }
-            }
-        }
-        public List<Direction> AnyUnvisitedNeighbors(Point currentCell)
+        #region MazeGenerator
+        private List<Direction> AnyUnvisitedNeighbors(Point currentCell)
         {
             List<Direction> unvisitedNeighbors = new List<Direction>();
             if (currentCell.Y - 1 >= 0)
@@ -194,7 +121,7 @@ namespace ProjectAcademy
             {
                 _cells[currentCell.X, currentCell.Y].NorthWall = false;
                 _cells[currentCell.X - 1, currentCell.Y].SouthWall = false;
-                currentCell = new Point(currentCell.X-1, currentCell.Y );
+                currentCell = new Point(currentCell.X - 1, currentCell.Y);
             }
             else if (dir == Direction.down)
             {
@@ -205,16 +132,23 @@ namespace ProjectAcademy
         }
         public void GenerateMaze()
         {
+            // Step1: Randomly select a node (or cell) N
             Point currentCell = new Point(_start.Y, _start.X);
             Queue<Point> queue = new Queue<Point>();
             List<Direction> unvisitedNeighbors = new List<Direction>();
             Direction dir;
 
             Step2:
+            // Push the node N onto a queue Q
             queue.Enqueue(currentCell);
+            // Step3: Mark the cell N as visited
             _cells[currentCell.X, currentCell.Y].Visited = true;
 
             Step4:
+            // Randomly select an adjacent cell A of node N that has not been visited. If all the neighbors of N have been visited:
+            //      - Continue to pop items off the queue Q until a node is encountered with at least one 
+            //          non -visited neighbor - assign this node to N and go to step 4
+            //      - If no nodes exist: stop
             unvisitedNeighbors = AnyUnvisitedNeighbors(currentCell);
 
             if (unvisitedNeighbors.Count <= 0) // All the neighbors of current cell have been visited
@@ -227,10 +161,17 @@ namespace ProjectAcademy
             else
             {
                 dir = ChooseNeighbor(unvisitedNeighbors);
+                // Step5: Break the wall between N and A
+                // Step6: Assign the value A to N
                 BreakWalls(ref currentCell, dir);
+                // Step7: Go to step 2
                 goto Step2;
             }
         }
+        #endregion All functions needed to generate the maze
+        /// <summary>
+        /// Fill the with defaults value (0)
+        /// </summary>
         private void FillArray(ref Cell[,] LineList, int Row, int Col)
         {
             bool[] NestedList = new bool[Col];
@@ -241,6 +182,9 @@ namespace ProjectAcademy
                     LineList[i, j] = new Cell();
             }
         }
+        /// <summary>
+        /// Change size of array
+        /// </summary>
         private void ResizeArray<T>(ref T[,] original, int newCoNum, int newRoNum)
         {
             var newArray = new T[newCoNum, newRoNum];
@@ -250,6 +194,58 @@ namespace ProjectAcademy
             for (int co = 0; co <= columns; co++)
                 Array.Copy(original, co * columnCount, newArray, co * columnCount2, columnCount);
             original = newArray;
+        }
+        /// <summary>
+        /// Render maze to the grid
+        /// </summary>
+        public void RenderMaze(Grid grid)
+        {
+            for (int i = 0; i < _dim.Y; i++)
+            {
+                for (int j = 0; j < _dim.X; j++)
+                {
+                    if (_cells[i, j].NorthWall) // up
+                    {
+                        CreateLine(lineLengh + j * lineLengh, lineLengh + i * lineLengh,
+                            (lineLengh + j * lineLengh) + lineLengh, lineLengh + i * lineLengh, true, grid);
+                    }
+                    else
+                    {
+                        CreateLine(lineLengh + j * lineLengh, lineLengh + i * lineLengh,
+                            (lineLengh + j * lineLengh) + lineLengh, lineLengh + i * lineLengh, false, grid);
+                    }
+                    if (_cells[i, j].SouthWall) // down
+                    {
+                        CreateLine(lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh + _lineThickness,
+                            lineLengh + (j * lineLengh) + lineLengh, lineLengh + (i * lineLengh) + lineLengh + _lineThickness, true, grid);
+                    }
+                    else
+                    {
+                        CreateLine(lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh + _lineThickness,
+                            lineLengh + (j * lineLengh) + lineLengh, lineLengh + (i * lineLengh) + lineLengh + _lineThickness, false, grid);
+                    }
+                    if (_cells[i, j].EastWall) // right
+                    {
+                        CreateLine(lineLengh + (j * lineLengh) + lineLengh + _lineThickness, lineLengh + i * lineLengh,
+                            lineLengh + (j * lineLengh) + lineLengh + _lineThickness, lineLengh + (i * lineLengh) + lineLengh, true, grid);
+                    }
+                    else
+                    {
+                        CreateLine(lineLengh + (j * lineLengh) + lineLengh, lineLengh + i * lineLengh,
+                            lineLengh + (j * lineLengh) + lineLengh, lineLengh + (i * lineLengh) + lineLengh, false, grid);
+                    }
+                    if (_cells[i, j].WestWall) // left
+                    {
+                        CreateLine(lineLengh + j * lineLengh, lineLengh + i * lineLengh,
+                            lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh, true, grid);
+                    }
+                    else
+                    {
+                        CreateLine(lineLengh + j * lineLengh, lineLengh + i * lineLengh,
+                           lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh, false, grid);
+                    }
+                }
+            }
         }
     }
 }

@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace ProjectAcademy
@@ -18,6 +9,7 @@ namespace ProjectAcademy
     {
         private Point _position, _startPosition;
         private Ellipse _avatar;
+        private Canvas _myCanvas = new Canvas();
         /// <summary>
         /// Initialize player position in myPoint
         /// </summary>
@@ -31,7 +23,9 @@ namespace ProjectAcademy
             get { return _position; }
             set { _position = value; }
         }
-
+        /// <summary>
+        /// Render player avatar to the game grid
+        /// </summary>
         public void Render(Grid grid)
         {
             // Create a red Ellipse
@@ -41,7 +35,7 @@ namespace ProjectAcademy
             _avatar.Margin = new Thickness(_startPosition.X * lineLengh + bound, _startPosition.Y * lineLengh + bound, 0, 0);
 
             // Create a SolidColorBrush with a red color to fill the 
-            // Ellipse with.
+            // Ellipse with
             SolidColorBrush mySolidColorBrush = new SolidColorBrush();
 
             // Describes the brush's color using RGB values. 
@@ -51,23 +45,33 @@ namespace ProjectAcademy
             _avatar.StrokeThickness = 2;
             _avatar.Stroke = Brushes.Black;
 
-            // Set the width and height of the Ellipse.
+            // Set the width and height of the Ellipse
             _avatar.Width = lineLengh / 2;
             _avatar.Height = lineLengh / 2;
 
             // Create a Canvas
-            Canvas myCanvas = new Canvas();
-            Canvas.SetLeft(_avatar, myCanvas.ActualWidth / 2.0);
-            Canvas.SetTop(_avatar, myCanvas.ActualHeight / 2.0);
+            Canvas.SetLeft(_avatar, _myCanvas.ActualWidth / 2.0);
+            Canvas.SetTop(_avatar, _myCanvas.ActualHeight / 2.0);
 
             // Add the Ellipse to the Grid.
-            myCanvas.Children.Add(_avatar);
-            grid.Children.Add(myCanvas);
+            _myCanvas.Children.Add(_avatar);
+            grid.Children.Add(_myCanvas);
         }
+        /// <summary>
+        /// Update position of player
+        /// </summary>
         public void UpdatePosition(Point position)
         {
             _avatar.Margin = new Thickness(position.X * lineLengh + bound, position.Y * lineLengh + bound, 0, 0);
         }
+        /// <summary>
+        /// Remove player avatar from the gmae grid
+        /// </summary>
+        public void Remove(Grid grid)
+        {
+            grid.Children.Remove(_myCanvas);
+        }
+        #region Collision_checkers
         public bool MazeCollision(int playerPositionX, int playerPositionY, Point dim)
         {
             if (playerPositionX >= 0 &&
@@ -111,5 +115,6 @@ namespace ProjectAcademy
             }
             return false;
         }
+        #endregion
     }
 }

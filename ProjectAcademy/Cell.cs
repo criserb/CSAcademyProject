@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProjectAcademy
+﻿namespace ProjectAcademy
 {
     public class Cell
     {
@@ -15,7 +9,7 @@ namespace ProjectAcademy
         private bool _visited = false;
         
         /// <summary>
-        /// up wall
+        /// Up wall
         /// </summary>
         public bool NorthWall
         {
@@ -23,7 +17,7 @@ namespace ProjectAcademy
             set { _northWall = value; }
         }
         /// <summary>
-        /// down wall
+        /// Down wall
         /// </summary>
         public bool SouthWall
         {
@@ -31,7 +25,7 @@ namespace ProjectAcademy
             set { _southWall = value; }
         }
         /// <summary>
-        /// left wall
+        /// Left wall
         /// </summary>
         public bool WestWall
         {
@@ -39,7 +33,7 @@ namespace ProjectAcademy
             set { _westWall = value; }
         }
         /// <summary>
-        /// right wall
+        /// Right wall
         /// </summary>
         public bool EastWall
         {

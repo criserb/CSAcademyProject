@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectAcademy"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="550" ResizeMode="NoResize">
+        Title="MiniMaze" Height="450" Width="550" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Button x:Name="Btn_New_game" Content="New Game" HorizontalAlignment="Left" Margin="207,281,0,0" VerticalAlignment="Top" Width="140" Height="33" Click="New_game_Click"/>
         <Button x:Name="Btn_Ranking" Content="Ranking" HorizontalAlignment="Left" Margin="207,314,0,0" VerticalAlignment="Top" Width="140" Height="34" Click="Ranking_Click"/>
@@ -24,6 +24,8 @@
 
                 <Slider x:Name="slider_Width" HorizontalAlignment="Left" Margin="264,10,0,0" VerticalAlignment="Top" Width="120" Height="23" ValueChanged="slider_Width_ValueChanged" Maximum="60" SmallChange="1" Interval="1" Minimum="10" Visibility="Visible"/>
                 <Slider x:Name="slider_Height" HorizontalAlignment="Left" Margin="264,38,0,0" VerticalAlignment="Top" Width="120" Height="23" ValueChanged="slider_Height_ValueChanged" Maximum="30" SmallChange="1" Interval="1" Minimum="10" Visibility="Visible" />
+                <Button x:Name="btn_max_width" Content="Max" HorizontalAlignment="Left" Margin="414,10,0,0" VerticalAlignment="Top" Width="86" Height="19" Click="btn_max_width_Click"/>
+                <Button x:Name="btn_max_height" Content="Max" HorizontalAlignment="Left" Margin="414,38,0,0" VerticalAlignment="Top" Width="86" Height="19" Click="btn_max_height_Click"/>
             </Grid>
         </GroupBox>
     </Grid>

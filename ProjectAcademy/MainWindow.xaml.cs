@@ -20,10 +20,14 @@ namespace ProjectAcademy
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const int _lineLengh = 20;
+        private const int _bound = 25;
         public MainWindow()
         {
             InitializeComponent();
             MenuViewGrid();
+            slider_Width.Maximum = (SystemParameters.WorkArea.Width / _lineLengh - 2);
+            slider_Height.Maximum = (SystemParameters.WorkArea.Height / _lineLengh - 2);
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -36,7 +40,7 @@ namespace ProjectAcademy
         }
 
         private void Ranking_Click(object sender, RoutedEventArgs e)
-        { 
+        {
             Window1 Window1 = new Window1();
             this.Close();
             Window1.Show();
@@ -78,6 +82,8 @@ namespace ProjectAcademy
             this.lbl_Height.Visibility = Visibility.Visible;
             this.lbl_Width.Visibility = Visibility.Visible;
             this.groupBoxlabyrinthDiemnsion.Visibility = Visibility.Visible;
+            this.btn_max_height.Visibility = Visibility.Visible;
+            this.btn_max_width.Visibility = Visibility.Visible;
         }
         private void MenuViewGrid()
         {
@@ -93,6 +99,18 @@ namespace ProjectAcademy
             this.lbl_Height.Visibility = Visibility.Hidden;
             this.lbl_Width.Visibility = Visibility.Hidden;
             this.groupBoxlabyrinthDiemnsion.Visibility = Visibility.Hidden;
+            this.btn_max_height.Visibility = Visibility.Hidden;
+            this.btn_max_width.Visibility = Visibility.Hidden;
+        }
+
+        private void btn_max_width_Click(object sender, RoutedEventArgs e)
+        {
+            slider_Width.Value = slider_Width.Maximum;
+        }
+
+        private void btn_max_height_Click(object sender, RoutedEventArgs e)
+        {
+            slider_Height.Value = slider_Height.Maximum;
         }
     }
 }

@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectAcademy"
         mc:Ignorable="d"
-       Title="Maze" Height="350" Width="350"
-        KeyDown="OnKeyDownHandler" ResizeMode="NoResize">
+       Title="MiniMaze" Height="350" Width="350"
+        KeyDown="OnKeyDownHandler" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid x:Name="gameGrid">
         <Button x:Name="Btn_Back" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="Btn_Back_Click" Margin="10,289,0,0"/>
         <Label x:Name="lbl_Time" Content="Time:" HorizontalAlignment="Left" Margin="116,271,0,0" VerticalAlignment="Top" Height="30" Width="37"/>
