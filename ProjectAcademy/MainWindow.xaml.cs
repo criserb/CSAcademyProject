@@ -41,9 +41,7 @@ namespace ProjectAcademy
 
         private void Ranking_Click(object sender, RoutedEventArgs e)
         {
-            Window1 Window1 = new Window1();
-            this.Close();
-            Window1.Show();
+            Rank.CheckConnection();
         }
 
         private void slider_Width_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
