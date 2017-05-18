@@ -44,6 +44,7 @@ namespace ProjectAcademy
         }
         public GameWindow(int w, int h)
         {
+            App.Current.MainWindow.Hide();
             InitializeComponent();
             if (w > (SystemParameters.WorkArea.Width / lineLengh - 2) / 2 &&
                 h > (SystemParameters.WorkArea.Height / lineLengh - 2) / 2)
@@ -65,18 +66,14 @@ namespace ProjectAcademy
         {
             // Generate start and exit point
             this._start = new Point(0, _dim.Y - 1);// RandomInt(0, _dim.Y));
-            MessageBox.Show("Start: " + _start.X.ToString() + " " + _start.Y.ToString());
             this._exit = new Point(_dim.X - 1, 0);//RandomInt(0, _dim.Y));
             this._maze = new Maze(_dim, _start, _exit);
             this._player = new Player(_start);
-            // MessageBox.Show("Player_position" + _player.Position.X.ToString() + " " + _player.Position.Y.ToString());
-            MessageBox.Show("Dim: " + _dim.X + " x " + _dim.Y);
         }
         private void Btn_Back_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow MainWindow = new MainWindow();
-            MainWindow.Show();
             this.Close();
+            App.Current.MainWindow.Show();
         }
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {

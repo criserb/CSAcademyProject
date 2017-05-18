@@ -16,17 +16,13 @@ using System.Windows.Shapes;
 namespace ProjectAcademy
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Ranking.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Ranking : Page
     {
-        public static readonly int lineLengh = 20;
-        public static readonly int bound = 25;
-        public MainWindow()
+        public Ranking()
         {
             InitializeComponent();
-            frame.NavigationService.Navigate(new MainMenu());
-            frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
         }
     }
 }
