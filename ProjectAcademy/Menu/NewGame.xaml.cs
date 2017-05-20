@@ -38,6 +38,7 @@ namespace ProjectAcademy
 
         private void Btn_Generate_Maze_Click(object sender, RoutedEventArgs e)
         {
+            App.Current.MainWindow.Hide();
             GameWindow GameWindow = new GameWindow(Convert.ToInt32(textBox_Width.Text), Convert.ToInt32(textBox_Height.Text));
             GameWindow.Show();
             this.NavigationService.Navigate(new MainMenu());

@@ -5,6 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectAcademy"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="550" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="MiniMaze" Height="450" Width="550" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Frame x:Name="frame" Content="Frame" HorizontalAlignment="Left" Height="450" VerticalAlignment="Top" Width="550" Margin="0,0,-6,-1"/>
 </Window>

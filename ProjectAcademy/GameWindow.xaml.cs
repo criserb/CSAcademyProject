@@ -28,8 +28,8 @@ namespace ProjectAcademy
         private bool _stopCounting = false;
         static protected Random rand = new Random();
         protected Direction dir;
-        protected const int lineLengh = 20;
-        protected const int bound = 25;
+        protected readonly int lineLengh = MainWindow.lineLengh;
+        protected readonly int bound = MainWindow.bound;
         private Point _start, _exit;
         public enum Direction
         {
@@ -44,7 +44,6 @@ namespace ProjectAcademy
         }
         public GameWindow(int w, int h)
         {
-            App.Current.MainWindow.Hide();
             InitializeComponent();
             if (w > (SystemParameters.WorkArea.Width / lineLengh - 2) / 2 &&
                 h > (SystemParameters.WorkArea.Height / lineLengh - 2) / 2)
@@ -68,12 +67,38 @@ namespace ProjectAcademy
             this._start = new Point(0, _dim.Y - 1);// RandomInt(0, _dim.Y));
             this._exit = new Point(_dim.X - 1, 0);//RandomInt(0, _dim.Y));
             this._maze = new Maze(_dim, _start, _exit);
-            this._player = new Player(_start);
+            this._player = new Player(_exit);
+        }
+        private void End()
+        {
+            _player.Position.X++;
+            _player.UpdatePosition(_player.Position);
+            _player.Remove(gameGrid);
+            _stopCounting = true;
+            Thread.Sleep(200);
+            if (MessageBox.Show("Gratulations! You managed to get through the maze in time  " +
+                this.lbl_Time_Value.Content.ToString() + " seconds! Do you want to save your score?",
+                "Win", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                string nick = Microsoft.VisualBasic.Interaction.InputBox("Please enter your nickname", "Saving score", "Your nickname");
+                // Check if data base exist
+                if (!Rank.IsDataBaseExist())
+                {
+                    Rank.CreateDataBase();
+                    Rank.Add(nick, Convert.ToInt32(this.lbl_Time_Value.Content), _dim);
+                }
+                else
+                {
+                    Rank.Add(nick, Convert.ToInt32(this.lbl_Time_Value.Content), _dim);
+                }
+            }
+            App.Current.MainWindow.Show();
+            this.Close();
         }
         private void Btn_Back_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
             App.Current.MainWindow.Show();
+            this.Close();
         }
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
@@ -119,12 +144,7 @@ namespace ProjectAcademy
                     {
                         if (_player.Position.X == _dim.X - 1 && _player.Position.Y == 0)
                         {
-                            _player.Position.X++;
-                            _player.UpdatePosition(_player.Position);
-                            _player.Remove(gameGrid);
-                            _stopCounting = true;
-                            Thread.Sleep(200);
-                            MessageBox.Show("Gratulacje! Udało Ci się ukończyć labirynt w  " + lbl_Time_Value.Content.ToString() + " sekund!");
+                            End();
                         }
                         if (!_player.MazeCollision(_player.Position.X + 1, _player.Position.Y, _dim))
                         {

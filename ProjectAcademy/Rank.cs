@@ -1,90 +1,89 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Threading;
-using Finisar.SQLite;
+using System.Data.SQLite;
+using System.IO;
 
 namespace ProjectAcademy
 {
     static class Rank
     {
-        // We use these three SQLite objects:
         private static SQLiteConnection _sqlite_conn;
         private static SQLiteCommand _sqlite_cmd;
         private static SQLiteDataReader _sqlite_datareader;
         static Rank()
         {
-            // create a new database connection:
-            _sqlite_conn = new SQLiteConnection("Data Source=Rank.db;Version=3;New=True;Compress=True;");
+            // Create a new database connection
+            _sqlite_conn = new SQLiteConnection("Data Source=Highscores.sqlite;Version=3;");
         }
         public static void Add(string nick, int time, Point dim)
         {
             _sqlite_conn.Open();
-            _sqlite_cmd = _sqlite_conn.CreateCommand();
+            string sql = "insert into Highscores (Nick, Time, Dimension) values ('" +
+                nick + "'," + time + ",'" + dim.X + " x " + dim.Y + "')";
+            //TODO: zrobic wyszukiwanie i nadpisywanie wynikow
+            _sqlite_cmd = new SQLiteCommand(sql, _sqlite_conn);
+            _sqlite_cmd.ExecuteNonQuery();
 
             _sqlite_conn.Close();
         }
-        public static void CheckConnection()
+
+        public static void ResetDataBase()
         {
-            // open the connection:
             _sqlite_conn.Open();
 
-            // create a new SQL command:
-            _sqlite_cmd = _sqlite_conn.CreateCommand();
+            string sqlTrunc = "DELETE FROM Highscores";
+            _sqlite_cmd = new SQLiteCommand(sqlTrunc, _sqlite_conn);
+            _sqlite_cmd.ExecuteNonQuery();
+
+            _sqlite_conn.Close();
+        }
+        public static void CreateDataBase()
+        {
+            _sqlite_conn.Open();
 
             // Let the SQLiteCommand object know our SQL-Query:
-            _sqlite_cmd.CommandText = "CREATE TABLE Ranking (Nick varchar(100), Time [sec] integer primary key, 'Dimension [width x height]' varchar(100));";
+            string sql = "create table Highscores (Number integer primary key, Nick varchar(50), Time int, Dimension varchar(7))";
 
-            // Now lets execute the SQL ;D
+            _sqlite_cmd = new SQLiteCommand(sql, _sqlite_conn);
             _sqlite_cmd.ExecuteNonQuery();
-
-            // Lets insert something into our new table:
-            _sqlite_cmd.CommandText = "INSERT INTO Ranking (Nick, Time) VALUES ('Test Text 1', 21);";
-
-            // And execute this again ;D
-            _sqlite_cmd.ExecuteNonQuery();
-
-            // ...and inserting another line:
-            _sqlite_cmd.CommandText = "INSERT INTO Ranking (Nick, Time) VALUES ('Test Text 2', 212);";
-
-            // And execute this again ;D
-            _sqlite_cmd.ExecuteNonQuery();
-
-            // My Lines                                                                             //
-            _sqlite_cmd.CommandText = "INSERT INTO Ranking (Nick, Time) VALUES ('Test Text 3', 11);";   //
-                                                                                                        //
-                                                                                                        // And execute this again ;D                                                            //
-            _sqlite_cmd.ExecuteNonQuery();                                                           //
-                                                                                                     //
-                                                                                                     // \\ My Lines                                                                          //
-
-            // But how do we read something out of our table ?
-            // First lets build a SQL-Query again:
-            _sqlite_cmd.CommandText = "SELECT * FROM Ranking";
-
-            // Now the SQLiteCommand object can give us a DataReader-Object:
-            _sqlite_datareader = _sqlite_cmd.ExecuteReader();
-
-            // The SQLiteDataReader allows us to run through the result lines:
-            while (_sqlite_datareader.Read()) // Read() returns true if there is still a result line to read
-            {
-                // Print out the content of the Time field:
-                string data = _sqlite_datareader.GetString(1);
-                MessageBox.Show(data);
-            }
 
             // We are ready, now lets cleanup and close our connection:
             _sqlite_conn.Close();
+        }
+        public static bool IsDataBaseExist()
+        {
+            if (File.Exists(@"Highscores.sqlite"))
+                return true;
+            else return false;
+        }
+        public static int IsRepetitiveValue(string nick)
+        {
+            int count = 0;
+            _sqlite_conn.Open();
+            string sql = "select * from Highscores";
+            _sqlite_cmd = new SQLiteCommand(sql, _sqlite_conn);
+            _sqlite_datareader = _sqlite_cmd.ExecuteReader();
+            while (_sqlite_datareader.Read())
+            {
+                if (nick == _sqlite_datareader.GetString(1))
+                {
+                    ++count;
+                }
+            }
+            _sqlite_conn.Close();
+            return count;
+        }
+        private static int NumerateRows()
+        {
+            int count = 1;
+            string sql = "select * from Highscores";
+            _sqlite_cmd = new SQLiteCommand(sql, _sqlite_conn);
+            _sqlite_datareader = _sqlite_cmd.ExecuteReader();
+            while (_sqlite_datareader.Read())
+            {
+                ++count;
+            }
+            return count;
         }
     }
 }

@@ -5,10 +5,88 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ProjectAcademy"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="450" d:DesignWidth="550"
       Title="Ranking">
 
     <Grid>
-        
+        <Grid Width="550" Height="400" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <WrapPanel Margin="0,350,0,20" Grid.RowSpan="2">
+                <Button Content="Back" x:Name="btn_Back" Margin="5"
+                Click="btn_Back_Click" Width="100" />
+                <Button Content="Reset" x:Name="btn_Reset" Margin="5"
+                Click="btn_Reset_Click" Width="100" />
+            </WrapPanel>
+        </Grid>
+        <ListView Grid.Row="0"
+            x:Name="lstItems" ItemsSource="{Binding}" Margin="0,0,0,80">
+            <ListView.View>
+                <GridView AllowsColumnReorder="True">
+                    <GridViewColumn>
+                        <GridViewColumn.HeaderTemplate>
+                            <DataTemplate >
+                                <TextBlock Text="Nr" Margin="2" />
+                            </DataTemplate>
+                        </GridViewColumn.HeaderTemplate>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Margin="2"
+                                        Text="{Binding Number}" />
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="Nickname" Margin="2" />
+                            </DataTemplate>
+                        </GridViewColumn.HeaderTemplate>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Margin="2"
+                                        Text="{Binding Nick}" />
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="Time" Margin="2" />
+                            </DataTemplate>
+                        </GridViewColumn.HeaderTemplate>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Margin="2"
+                                        Text="{Binding Time}" />
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="Dimension" Margin="2" />
+                            </DataTemplate>
+                        </GridViewColumn.HeaderTemplate>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Margin="2"
+                                        Text="{Binding Dimension}" />
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Page>
