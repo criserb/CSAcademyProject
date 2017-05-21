@@ -17,6 +17,8 @@ using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Data.SqlTypes;
 using System.Data;
+using System.ComponentModel;
+using System.Globalization;
 
 namespace ProjectAcademy
 {
@@ -51,13 +53,13 @@ namespace ProjectAcademy
                 m_oDataAdapter.Fill(m_oDataSet);
                 m_oDataTable = m_oDataSet.Tables[0];
                 lstItems.DataContext = m_oDataTable.DefaultView;
+                lstNumerate.ItemsSource = Rank.NumerateRows();
             }
             else
             {
                 MessageBox.Show("Scoreboard does not exist. First play the game");
             }
         }
-
         private void btn_Back_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new MainMenu());
@@ -71,6 +73,20 @@ namespace ProjectAcademy
                 Rank.ResetDataBase();
                 InitBinding();
             }
+        }
+    }
+    public class DateConverter : IValueConverter
+    {
+        public object Convert(object value, Type TargetType, object parameter, CultureInfo culture)
+        {
+            ListViewItem item = (ListViewItem)value;
+            ListView listView = ItemsControl.ItemsControlFromItemContainer(item) as ListView;
+            int index = listView.ItemContainerGenerator.IndexFromContainer(item);
+            return index.ToString();
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -42,7 +42,7 @@ namespace ProjectAcademy
             _sqlite_conn.Open();
 
             // Let the SQLiteCommand object know our SQL-Query:
-            string sql = "create table Highscores (Number integer primary key, Nick varchar(50), Time int, Dimension varchar(7))";
+            string sql = "create table Highscores (Nick varchar(50), Time integer primary key, Dimension varchar(7))";
 
             _sqlite_cmd = new SQLiteCommand(sql, _sqlite_conn);
             _sqlite_cmd.ExecuteNonQuery();
@@ -73,17 +73,21 @@ namespace ProjectAcademy
             _sqlite_conn.Close();
             return count;
         }
-        private static int NumerateRows()
+        public static List<int> NumerateRows()
         {
+            _sqlite_conn.Open();
+            List<int> numbers = new List<int>();
             int count = 1;
             string sql = "select * from Highscores";
             _sqlite_cmd = new SQLiteCommand(sql, _sqlite_conn);
             _sqlite_datareader = _sqlite_cmd.ExecuteReader();
             while (_sqlite_datareader.Read())
             {
+                numbers.Add(count);
                 ++count;
             }
-            return count;
+            _sqlite_conn.Close();
+            return numbers;
         }
     }
 }

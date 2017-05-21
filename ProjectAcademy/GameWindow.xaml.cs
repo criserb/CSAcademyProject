@@ -67,7 +67,7 @@ namespace ProjectAcademy
             this._start = new Point(0, _dim.Y - 1);// RandomInt(0, _dim.Y));
             this._exit = new Point(_dim.X - 1, 0);//RandomInt(0, _dim.Y));
             this._maze = new Maze(_dim, _start, _exit);
-            this._player = new Player(_exit);
+            this._player = new Player(_start);
         }
         private void End()
         {

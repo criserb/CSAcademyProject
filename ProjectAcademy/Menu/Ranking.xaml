@@ -9,11 +9,7 @@
       Title="Ranking">
 
     <Grid>
-        <Grid Width="550" Height="400" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <Grid Width="550" Height="400">
             <WrapPanel Margin="0,350,0,20" Grid.RowSpan="2">
                 <Button Content="Back" x:Name="btn_Back" Margin="5"
                 Click="btn_Back_Click" Width="100" />
@@ -21,70 +17,23 @@
                 Click="btn_Reset_Click" Width="100" />
             </WrapPanel>
         </Grid>
-        <ListView Grid.Row="0"
-            x:Name="lstItems" ItemsSource="{Binding}" Margin="0,0,0,80">
+        <ListView x:Name="lstNumerate" ItemsSource="{Binding}" Height="400" Margin="0,0,22,80" Width="550">
             <ListView.View>
-                <GridView AllowsColumnReorder="True">
-                    <GridViewColumn>
-                        <GridViewColumn.HeaderTemplate>
-                            <DataTemplate >
-                                <TextBlock Text="Nr" Margin="2" />
-                            </DataTemplate>
-                        </GridViewColumn.HeaderTemplate>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <TextBlock Margin="2"
-                                        Text="{Binding Number}" />
-                                </Grid>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn>
-                        <GridViewColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="Nickname" Margin="2" />
-                            </DataTemplate>
-                        </GridViewColumn.HeaderTemplate>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <TextBlock Margin="2"
-                                        Text="{Binding Nick}" />
-                                </Grid>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn>
-                        <GridViewColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="Time" Margin="2" />
-                            </DataTemplate>
-                        </GridViewColumn.HeaderTemplate>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <TextBlock Margin="2"
-                                        Text="{Binding Time}" />
-                                </Grid>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn>
-                        <GridViewColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="Dimension" Margin="2" />
-                            </DataTemplate>
-                        </GridViewColumn.HeaderTemplate>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <TextBlock Margin="2"
-                                        Text="{Binding Dimension}" />
-                                </Grid>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                <GridView>
+                    <GridViewColumn Header="No" Width="auto" />
+
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView x:Name="lstItems" ItemsSource="{Binding}" Height="400" Margin="22,0,0,80" Width="550">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Nick" Width="auto" 
+                         DisplayMemberBinding="{Binding Path=Nick}" />
+                    <GridViewColumn Header="Time" Width="auto" 
+                         DisplayMemberBinding="{Binding Path=Time}" />
+                    <GridViewColumn Header="Dimension" Width="auto" 
+                         DisplayMemberBinding="{Binding Path=Dimension}" />
                 </GridView>
             </ListView.View>
         </ListView>
