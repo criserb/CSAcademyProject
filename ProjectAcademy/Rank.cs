@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
+using System.Linq;
 
 namespace ProjectAcademy
 {
@@ -22,9 +23,6 @@ namespace ProjectAcademy
                 nick + "'," + time + ",'" + dim.X + " x " + dim.Y + "')";
             _sqlite_cmd = new SQLiteCommand(sql, _sqlite_conn);
             _sqlite_cmd.ExecuteNonQuery();
-
-            SortDataBase();
-
             _sqlite_conn.Close();
         }
 
@@ -57,44 +55,26 @@ namespace ProjectAcademy
                 return true;
             else return false;
         }
-        public static int IsRepetitiveValue(string nick)
+        public static List<Record> GetSortedList()
         {
-            int count = 0;
+            int count = 1;
             _sqlite_conn.Open();
-            string sql = "select * from Highscores";
+            List<Record> list = new List<Record>();
+            string sql = "SELECT * FROM Highscores";
             _sqlite_cmd = new SQLiteCommand(sql, _sqlite_conn);
             _sqlite_datareader = _sqlite_cmd.ExecuteReader();
             while (_sqlite_datareader.Read())
             {
-                if (nick == _sqlite_datareader.GetString(1))
-                {
-                    ++count;
-                }
+                list.Add(new Record(_sqlite_datareader.GetString(0), _sqlite_datareader.GetInt32(1), _sqlite_datareader.GetString(2)));
             }
             _sqlite_conn.Close();
-            return count;
-        }
-        public static void SortDataBase()
-        {
-            string sql = "SELECT * FROM Highscores ORDER BY 'Time' ASC";
-            _sqlite_cmd = new SQLiteCommand(sql, _sqlite_conn);
-            _sqlite_cmd.ExecuteNonQuery();
-        }
-        public static List<int> NumerateRows()
-        {
-            _sqlite_conn.Open();
-            List<int> numbers = new List<int>();
-            int count = 1;
-            string sql = "select * from Highscores";
-            _sqlite_cmd = new SQLiteCommand(sql, _sqlite_conn);
-            _sqlite_datareader = _sqlite_cmd.ExecuteReader();
-            while (_sqlite_datareader.Read())
+            List<Record> sortedList = list.OrderBy(o => o.Time).ToList();
+            foreach (var item in sortedList)
             {
-                numbers.Add(count);
+                item.Number = count;
                 ++count;
             }
-            _sqlite_conn.Close();
-            return numbers;
+            return sortedList;
         }
     }
 }

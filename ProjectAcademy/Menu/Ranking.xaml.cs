@@ -40,19 +40,8 @@ namespace ProjectAcademy
         {
             if (Rank.IsDataBaseExist())
             {
-                SQLiteConnection oSQLiteConnection =
-                    new SQLiteConnection("Data Source=Highscores.sqlite");
-                SQLiteCommand oCommand = oSQLiteConnection.CreateCommand();
-                oCommand.CommandText = "SELECT * FROM Highscores";
-                m_oDataAdapter = new SQLiteDataAdapter(oCommand.CommandText,
-                    oSQLiteConnection);
-                SQLiteCommandBuilder oCommandBuilder =
-                    new SQLiteCommandBuilder(m_oDataAdapter);
-                m_oDataSet = new DataSet();
-                m_oDataAdapter.Fill(m_oDataSet);
-                m_oDataTable = m_oDataSet.Tables[0];
-                lstItems.DataContext = m_oDataTable.DefaultView;
-                lstNumerate.ItemsSource = Rank.NumerateRows();
+                List<Record> list = Rank.GetSortedList();
+                lstItems.ItemsSource = list;
             }
             else
             {
