@@ -20,9 +20,10 @@ namespace ProjectAcademy
             _sqlite_conn.Open();
             string sql = "insert into Highscores (Nick, Time, Dimension) values ('" +
                 nick + "'," + time + ",'" + dim.X + " x " + dim.Y + "')";
-            //TODO: zrobic wyszukiwanie i nadpisywanie wynikow
             _sqlite_cmd = new SQLiteCommand(sql, _sqlite_conn);
             _sqlite_cmd.ExecuteNonQuery();
+
+            SortDataBase();
 
             _sqlite_conn.Close();
         }
@@ -42,7 +43,7 @@ namespace ProjectAcademy
             _sqlite_conn.Open();
 
             // Let the SQLiteCommand object know our SQL-Query:
-            string sql = "create table Highscores (Nick varchar(50), Time integer primary key, Dimension varchar(7))";
+            string sql = "create table Highscores (Nick varchar(50), Time int, Dimension varchar(7))";
 
             _sqlite_cmd = new SQLiteCommand(sql, _sqlite_conn);
             _sqlite_cmd.ExecuteNonQuery();
@@ -72,6 +73,12 @@ namespace ProjectAcademy
             }
             _sqlite_conn.Close();
             return count;
+        }
+        public static void SortDataBase()
+        {
+            string sql = "SELECT * FROM Highscores ORDER BY 'Time' ASC";
+            _sqlite_cmd = new SQLiteCommand(sql, _sqlite_conn);
+            _sqlite_cmd.ExecuteNonQuery();
         }
         public static List<int> NumerateRows()
         {

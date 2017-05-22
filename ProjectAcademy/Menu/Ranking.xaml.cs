@@ -34,9 +34,8 @@ namespace ProjectAcademy
         {
             InitializeComponent();
             InitBinding();
+
         }
-
-
         private void InitBinding()
         {
             if (Rank.IsDataBaseExist())
@@ -73,20 +72,6 @@ namespace ProjectAcademy
                 Rank.ResetDataBase();
                 InitBinding();
             }
-        }
-    }
-    public class DateConverter : IValueConverter
-    {
-        public object Convert(object value, Type TargetType, object parameter, CultureInfo culture)
-        {
-            ListViewItem item = (ListViewItem)value;
-            ListView listView = ItemsControl.ItemsControlFromItemContainer(item) as ListView;
-            int index = listView.ItemContainerGenerator.IndexFromContainer(item);
-            return index.ToString();
-        }
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
         }
     }
 }

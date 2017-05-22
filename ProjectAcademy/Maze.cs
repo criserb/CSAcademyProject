@@ -53,6 +53,7 @@ namespace ProjectAcademy
             if (toCreate) grid.Children.Add(myLine);
             else grid.Children.Remove(myLine);
         }
+        // Generate maze
         #region MazeGenerator
         private List<Direction> AnyUnvisitedNeighbors(Point currentCell)
         {
@@ -169,6 +170,13 @@ namespace ProjectAcademy
             }
         }
         #endregion All functions needed to generate the maze
+        // Find escape from maze
+        #region MazeFindPath
+        public void MazeFindPath()
+        {
+
+        }
+        #endregion
         /// <summary>
         /// Fill the with defaults value (0)
         /// </summary>
