@@ -174,11 +174,16 @@ namespace ProjectAcademy
         #region MazeFindPath
         public void MazeFindPath()
         {
-
+            //TODO: opcje wyboru koloru kropki, scian i tla
+            //TODO: znajdowanie wyjscia z labiryntu
+            //TODO: okienko jak grac
+            //TODO: grafika i animacje
+            //TODO: dzwieki
+            //TODO: kolorowanie scian na inny kolor jesli wystapi kolizja
         }
         #endregion
         /// <summary>
-        /// Fill the with defaults value (0)
+        /// Fill the array with default value (0)
         /// </summary>
         private void FillArray(ref Cell[,] LineList, int Row, int Col)
         {
