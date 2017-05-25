@@ -37,5 +37,14 @@ namespace ProjectAcademy
         {
             this.NavigationService.Navigate(new Ranking());
         }
+
+        private void Btn_New_How_To_Play_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new HowToPlay());
+        }
+        private void Btn_Options_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Option());
+        }
     }
 }

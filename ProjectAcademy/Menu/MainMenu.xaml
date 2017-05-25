@@ -8,8 +8,13 @@
       d:DesignHeight="450" d:DesignWidth="550"
       Title="MainMenu">
     <Grid>
-        <Button x:Name="Btn_New_game" Content="New Game" HorizontalAlignment="Left" Margin="207,281,0,0" VerticalAlignment="Top" Width="140" Height="33" Click="New_game_Click"/>
-        <Button x:Name="Btn_Ranking" Content="Ranking" HorizontalAlignment="Left" Margin="207,314,0,0" VerticalAlignment="Top" Width="140" Height="34" Click="Ranking_Click"/>
-        <Button x:Name="Btn_Exit" Content="Exit" HorizontalAlignment="Left" Margin="207,348,0,0" VerticalAlignment="Top" Width="140" Height="33" Click="Exit_Click"/>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="450" VerticalAlignment="Top" Width="550" Source="/ProjectAcademy;component/Graphics/Background.png"/>
+        <Button x:Name="Btn_New_game" Content="New Game" HorizontalAlignment="Left" Margin="196,210,0,0" VerticalAlignment="Top" Width="140" Height="33" Click="New_game_Click"/>
+        <Button x:Name="Btn_Ranking" Content="Ranking" HorizontalAlignment="Left" Margin="196,347,0,0" VerticalAlignment="Top" Width="140" Height="34" Click="Ranking_Click"/>
+        <Button x:Name="Btn_Exit" Content="Exit" HorizontalAlignment="Left" Margin="381,349,0,0" VerticalAlignment="Top" Width="140" Height="33" Click="Exit_Click"/>
+        <Label x:Name="label" Content="Designed and developed by Christopher and Lucas co." HorizontalAlignment="Left" Height="30" Margin="10,381,0,39" Width="530" FontFamily="Orator Std" HorizontalContentAlignment="Center" FontSize="14" VerticalContentAlignment="Center"/>
+        <Button x:Name="Btn_Options" Content="Options" HorizontalAlignment="Left" Margin="10,349,0,0" VerticalAlignment="Top" Width="140" Height="33" Click="Btn_Options_Click"/>
+        <Button x:Name="Btn_New_How_To_Play" Content="How to play" HorizontalAlignment="Left" Margin="196,243,0,0" VerticalAlignment="Top" Width="140" Height="33" Click="Btn_New_How_To_Play_Click"/>
+        
     </Grid>
 </Page>

@@ -1,0 +1,16 @@
+﻿<Page x:Class="ProjectAcademy.HowToPlay"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ProjectAcademy"
+      mc:Ignorable="d" 
+     d:DesignHeight="450" d:DesignWidth="550"
+      Title="HowToPlay">
+
+    <Grid>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="450" VerticalAlignment="Top" Width="550" Source="/ProjectAcademy;component/Graphics/Plane_Background.png"/>
+        <Button x:Name="Btn_Back" Content="Back" HorizontalAlignment="Left" Margin="10,369,0,0" VerticalAlignment="Top" Width="125" Height="40" Click="Btn_Back_Click" Visibility="Visible"/>
+
+    </Grid>
+</Page>

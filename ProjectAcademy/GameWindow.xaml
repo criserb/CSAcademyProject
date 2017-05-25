@@ -8,9 +8,10 @@
        Title="MiniMaze" Height="350" Width="350"
         KeyDown="OnKeyDownHandler" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid x:Name="gameGrid">
-        <Button x:Name="Btn_Back" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="Btn_Back_Click" Margin="10,289,0,0"/>
-        <Label x:Name="lbl_Time" Content="Time:" HorizontalAlignment="Left" Margin="116,271,0,0" VerticalAlignment="Top" Height="30" Width="37"/>
-        <Label x:Name="lbl_Time_Value" Content="" HorizontalAlignment="Left" Margin="158,271,0,0" VerticalAlignment="Top" Width="99" HorizontalContentAlignment="Right" Height="30"/>
-        <Label x:Name="lbl_Time_Sec" Content="Sec" HorizontalAlignment="Left" Margin="257,271,0,0" VerticalAlignment="Top" Height="30" Width="27"/>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="321" VerticalAlignment="Top" Width="344" Source="Background.png"/>
+        <Button x:Name="Btn_Back" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Click="Btn_Back_Click" Margin="10,280,0,0" Height="20" VerticalContentAlignment="Center"/>
+        <Button x:Name="Btn_Show_Solution" Content="?" HorizontalAlignment="Left" VerticalAlignment="Top" Width="20" Margin="95,280,0,0" Click="Btn_Show_Solution_Click" Height="20" VerticalContentAlignment="Center" />
+        <Button x:Name="Btn_labels" Content="Button" HorizontalAlignment="Left" Margin="225,217,0,0" VerticalAlignment="Top" Width="120"/>
+        <Grid x:Name="mazeGrid" Margin="18,18,19,41"/>
     </Grid>
 </Window>

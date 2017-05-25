@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -172,7 +173,7 @@ namespace ProjectAcademy
         #endregion All functions needed to generate the maze
         // Find escape from maze
         #region MazeFindPath
-        public void MazeFindPath()
+        public bool MazeFindPath(int y, int x)
         {
             //TODO: opcje wyboru koloru kropki, scian i tla
             //TODO: znajdowanie wyjscia z labiryntu
@@ -180,6 +181,80 @@ namespace ProjectAcademy
             //TODO: grafika i animacje
             //TODO: dzwieki
             //TODO: kolorowanie scian na inny kolor jesli wystapi kolizja
+            // If x,y poza labiryntem, return false.
+            if (x < 0 || x > _dim.X - 1 || y < 0 || y > _dim.Y - 1) return false;
+            // If x,y jest wyjsciem, return true.
+            if (new Point(y, x) == _exit) return true;
+            // If x,y nie jest sciezka otwarta (kropka), return false.
+            if (_cells[x, y].State != States.open_path && new Point(y, x) != _start) return false;
+            // Zaznacz x,y jako sciezka eksplorowana.
+            _cells[x, y].State = States.explored_path;
+            MessageBox.Show(y.ToString() + x.ToString());
+            // If find_path do gory od x,y jest true, return true.
+            if (MazeFindPath(x, y - 1) == true)
+            {
+                return true;
+            }
+            // If find_path w prawo od x,y jest true, return true.
+            if (MazeFindPath(x + 1, y) == true)
+            {
+                return true;
+            }
+            // If find_path w dol od x,y jest true, return true.
+            if (MazeFindPath(x, y + 1) == true)
+            {
+                return true;
+            }
+            // If find_path w lewo od x,y jest true, return true.
+            if (MazeFindPath(x - 1, y) == true)
+            {
+                return true;
+            }
+            // Zaznacz x,y jako sciezka prowadzaca do nikad.
+            _cells[x, y].State = States.bad_path;
+            return false;
+        }
+        public void ColorPath(Grid grid)
+        {
+            for (int i = 0; i < _dim.Y; i++)
+            {
+                for (int j = 0; j < _dim.X; j++)
+                {
+                    if (_cells[i,j].State == States.explored_path)
+                    {
+                        MessageBox.Show("dasda");
+                        // Create a red Ellipse
+                        Rectangle square = new Rectangle();
+                        Canvas myCanvas = new Canvas();
+
+                        // Set position of the ellipse
+                        square.Margin = new Thickness(i * MainWindow.lineLengh, j * MainWindow.lineLengh + 5, 0, 0);
+
+                        // Create a SolidColorBrush with a red color to fill the 
+                        // Ellipse with
+                        SolidColorBrush mySolidColorBrush = new SolidColorBrush();
+
+                        // Describes the brush's color using RGB values. 
+                        // Each value has a range of 0-255.
+                        mySolidColorBrush.Color = Color.FromArgb(255, 255, 255, 0);
+                        square.Fill = mySolidColorBrush;
+                        square.StrokeThickness = 2;
+                        square.Stroke = Brushes.Black;
+
+                        // Set the width and height of the Ellipse
+                        square.Width = MainWindow.lineLengh;
+                        square.Height = MainWindow.lineLengh;
+
+                        // Create a Canvas
+                        Canvas.SetLeft(square, myCanvas.ActualWidth / 2.0);
+                        Canvas.SetTop(square, myCanvas.ActualHeight / 2.0);
+
+                        // Add the Ellipse to the Grid.
+                        myCanvas.Children.Add(square);
+                        grid.Children.Add(myCanvas);
+                    }
+                }
+            }
         }
         #endregion
         /// <summary>
@@ -219,44 +294,45 @@ namespace ProjectAcademy
                 {
                     if (_cells[i, j].NorthWall) // up
                     {
-                        CreateLine(lineLengh + j * lineLengh, lineLengh + i * lineLengh,
-                            (lineLengh + j * lineLengh) + lineLengh, lineLengh + i * lineLengh, true, grid);
+                        CreateLine(j * lineLengh, i * lineLengh,
+                            (lineLengh + j * lineLengh), i * lineLengh, true, grid);
                     }
                     else
                     {
-                        CreateLine(lineLengh + j * lineLengh, lineLengh + i * lineLengh,
-                            (lineLengh + j * lineLengh) + lineLengh, lineLengh + i * lineLengh, false, grid);
+                        CreateLine(j * lineLengh, i * lineLengh,
+                            (lineLengh + j * lineLengh), i * lineLengh, false, grid);
                     }
                     if (_cells[i, j].SouthWall) // down
                     {
-                        CreateLine(lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh + _lineThickness,
-                            lineLengh + (j * lineLengh) + lineLengh, lineLengh + (i * lineLengh) + lineLengh + _lineThickness, true, grid);
+                        CreateLine(j * lineLengh, (i * lineLengh) + lineLengh + _lineThickness,
+                            (j * lineLengh) + lineLengh, (i * lineLengh) + lineLengh + _lineThickness, true, grid);
                     }
                     else
                     {
-                        CreateLine(lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh + _lineThickness,
-                            lineLengh + (j * lineLengh) + lineLengh, lineLengh + (i * lineLengh) + lineLengh + _lineThickness, false, grid);
+                        CreateLine(j * lineLengh, (i * lineLengh) + lineLengh + _lineThickness,
+                            (j * lineLengh) + lineLengh, (i * lineLengh) + lineLengh + _lineThickness, false, grid);
                     }
                     if (_cells[i, j].EastWall) // right
                     {
-                        CreateLine(lineLengh + (j * lineLengh) + lineLengh + _lineThickness, lineLengh + i * lineLengh,
-                            lineLengh + (j * lineLengh) + lineLengh + _lineThickness, lineLengh + (i * lineLengh) + lineLengh, true, grid);
+                        CreateLine((j * lineLengh) + lineLengh + _lineThickness, i * lineLengh,
+                            (j * lineLengh) + lineLengh + _lineThickness, (i * lineLengh) + lineLengh, true, grid);
                     }
                     else
                     {
-                        CreateLine(lineLengh + (j * lineLengh) + lineLengh, lineLengh + i * lineLengh,
-                            lineLengh + (j * lineLengh) + lineLengh, lineLengh + (i * lineLengh) + lineLengh, false, grid);
+                        CreateLine((j * lineLengh) + lineLengh, i * lineLengh,
+                           (j * lineLengh) + lineLengh, (i * lineLengh) + lineLengh, false, grid);
                     }
                     if (_cells[i, j].WestWall) // left
                     {
-                        CreateLine(lineLengh + j * lineLengh, lineLengh + i * lineLengh,
-                            lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh, true, grid);
+                        CreateLine(j * lineLengh, i * lineLengh,
+                            j * lineLengh, lineLengh + (i * lineLengh), true, grid);
                     }
                     else
                     {
-                        CreateLine(lineLengh + j * lineLengh, lineLengh + i * lineLengh,
-                           lineLengh + j * lineLengh, lineLengh + (i * lineLengh) + lineLengh, false, grid);
+                        CreateLine(j * lineLengh, i * lineLengh,
+                          j * lineLengh, (i * lineLengh) + lineLengh, false, grid);
                     }
+
                 }
             }
         }

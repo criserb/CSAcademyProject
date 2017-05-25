@@ -32,7 +32,7 @@ namespace ProjectAcademy
             _avatar = new Ellipse();
 
             // Set position of the ellipse
-            _avatar.Margin = new Thickness(_startPosition.X * MainWindow.lineLengh + MainWindow.bound, _startPosition.Y * MainWindow.lineLengh + MainWindow.bound, 0, 0);
+            _avatar.Margin = new Thickness(_startPosition.X * MainWindow.lineLengh + 5, _startPosition.Y * MainWindow.lineLengh + 5, 0, 0);
 
             // Create a SolidColorBrush with a red color to fill the 
             // Ellipse with
@@ -62,7 +62,7 @@ namespace ProjectAcademy
         /// </summary>
         public void UpdatePosition(Point position)
         {
-            _avatar.Margin = new Thickness(position.X * MainWindow.lineLengh + MainWindow.bound, position.Y * MainWindow.lineLengh + MainWindow.bound, 0, 0);
+            _avatar.Margin = new Thickness(position.X * MainWindow.lineLengh + 5, position.Y * MainWindow.lineLengh + 5, 0, 0);
         }
         /// <summary>
         /// Remove player avatar from the gmae grid

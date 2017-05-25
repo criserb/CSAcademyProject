@@ -57,15 +57,27 @@ namespace ProjectAcademy
             // Generate maze
             _maze.GenerateMaze();
             // Render maze
-            _maze.RenderMaze(gameGrid);
+            _maze.RenderMaze(mazeGrid);
             // Render player at start position
-            _player.Render(gameGrid);
+            _player.Render(mazeGrid);
+        }
+        private void SettingPositions()
+        {
+            Btn_Show_Solution.Margin = new Thickness(bound - 10, this.Height - bound * 3 + 4, 0, 0);
+            Btn_Back.Margin = new Thickness(bound + 10, this.Height - bound * 3 + 4, 0, 0);
+            System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+            dispatcherTimer.Tick += dispatcherTimer_Tick;
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            dispatcherTimer.Start();
+            Btn_labels.IsHitTestVisible = false;
+            Btn_labels.Content = "Time: " + _count.ToString() + " Sec";
+            Btn_labels.Margin = new Thickness(this.Width - 5.5 * bound + 2 - 20, this.Height - bound * 3 + 4, 0, 0);
         }
         private void InitializeObjects()
         {
             // Generate start and exit point
-            this._start = new Point(0, _dim.Y - 1);// RandomInt(0, _dim.Y));
-            this._exit = new Point(_dim.X - 1, 0);//RandomInt(0, _dim.Y));
+            this._start = new Point(0, _dim.Y - 1);
+            this._exit = new Point(_dim.X - 1, 0);
             this._maze = new Maze(_dim, _start, _exit);
             this._player = new Player(_start);
         }
@@ -73,11 +85,11 @@ namespace ProjectAcademy
         {
             _player.Position.X++;
             _player.UpdatePosition(_player.Position);
-            _player.Remove(gameGrid);
+            _player.Remove(mazeGrid);
             _stopCounting = true;
             Thread.Sleep(200);
-            if (MessageBox.Show("Gratulations! You managed to get through the maze in time  " +
-                this.lbl_Time_Value.Content.ToString() + " seconds! Do you want to save your score?",
+            if (MessageBox.Show("Gratulations! You managed to get through the maze in time " +
+                this._count.ToString() + " seconds! Do you want to save your score?",
                 "Win", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 string nick = Microsoft.VisualBasic.Interaction.InputBox("Please enter your nickname", "Saving score", "Your nickname");
@@ -85,11 +97,11 @@ namespace ProjectAcademy
                 if (!Rank.IsDataBaseExist())
                 {
                     Rank.CreateDataBase();
-                    Rank.Add(nick, Convert.ToInt32(this.lbl_Time_Value.Content), _dim);
+                    Rank.Add(nick, Convert.ToInt32(this._count), _dim);
                 }
                 else
                 {
-                    Rank.Add(nick, Convert.ToInt32(this.lbl_Time_Value.Content), _dim);
+                    Rank.Add(nick, Convert.ToInt32(this._count), _dim);
                 }
             }
             App.Current.MainWindow.Show();
@@ -158,21 +170,16 @@ namespace ProjectAcademy
                     }
             }
         }
-        private void SettingPositions()
-        {
-            Btn_Back.Margin = new Thickness(bound - 5, this.Height - bound * 3 + 4, 0, 0);
-            lbl_Time.Margin = new Thickness(this.Width - 6 * bound, this.Height - bound * 3, 0, 0);
-            lbl_Time_Value.Margin = new Thickness(this.Width - 7 * bound, this.Height - bound * 3, 0, 0);
-            lbl_Time_Sec.Margin = new Thickness(this.Width - 3 * bound, this.Height - bound * 3, 0, 0);
-            System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-            dispatcherTimer.Tick += dispatcherTimer_Tick;
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
-            dispatcherTimer.Start();
-        }
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             if (!_stopCounting)
-                lbl_Time_Value.Content = (++_count).ToString();
+                Btn_labels.Content = "Time: " + (++_count).ToString() + " Sec";
+        }
+
+        private void Btn_Show_Solution_Click(object sender, RoutedEventArgs e)
+        {
+            if (this._maze.MazeFindPath(_start.X, _start.Y))
+                this._maze.ColorPath(mazeGrid);
         }
         /// <summary>
         /// Generate random int from minValue to max Value
