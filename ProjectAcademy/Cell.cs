@@ -13,10 +13,16 @@
         private bool _westWall = true;
         private bool _eastWall = true;
         private bool _visited = false;
+        private bool _fill = false;
         private States _state;
         /// <summary>
         /// Up wall
         /// </summary>
+        public bool Fill
+        {
+            get { return _fill; }
+            set { _fill = value; }
+        }
         public States State
         {
             get { return _state; }

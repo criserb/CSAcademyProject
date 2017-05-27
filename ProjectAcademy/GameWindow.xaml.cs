@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Threading;
+using System.IO;
 
 namespace ProjectAcademy
 {
@@ -178,8 +179,8 @@ namespace ProjectAcademy
 
         private void Btn_Show_Solution_Click(object sender, RoutedEventArgs e)
         {
-            if (this._maze.MazeFindPath(_start.X, _start.Y))
-                this._maze.ColorPath(mazeGrid);
+            _maze.FindPath();
+            _maze.ColorPath(gameGrid);
         }
         /// <summary>
         /// Generate random int from minValue to max Value

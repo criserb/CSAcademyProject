@@ -14,6 +14,7 @@ namespace ProjectAcademy
         private Cell[,] _cells = new Cell[0, 0];
         // dimension of maze, _dim.X = width, _ dim.Y = height
         private Point _dim;
+
         public Maze(Point dim, Point s, Point e)
         {
             this._dim = new Point(dim);
@@ -42,7 +43,7 @@ namespace ProjectAcademy
             myLine.X2 = X2;
             myLine.Y2 = Y2;
 
-            // Create a red Brush
+            // Create a Brush
             SolidColorBrush redBrush = new SolidColorBrush();
             redBrush.Color = Colors.Red;
 
@@ -172,8 +173,8 @@ namespace ProjectAcademy
         }
         #endregion All functions needed to generate the maze
         // Find escape from maze
-        #region MazeFindPath
-        public bool MazeFindPath(int y, int x)
+        #region MazePathFinder
+        public void FindPath()
         {
             //TODO: opcje wyboru koloru kropki, scian i tla
             //TODO: znajdowanie wyjscia z labiryntu
@@ -181,38 +182,7 @@ namespace ProjectAcademy
             //TODO: grafika i animacje
             //TODO: dzwieki
             //TODO: kolorowanie scian na inny kolor jesli wystapi kolizja
-            // If x,y poza labiryntem, return false.
-            if (x < 0 || x > _dim.X - 1 || y < 0 || y > _dim.Y - 1) return false;
-            // If x,y jest wyjsciem, return true.
-            if (new Point(y, x) == _exit) return true;
-            // If x,y nie jest sciezka otwarta (kropka), return false.
-            if (_cells[x, y].State != States.open_path && new Point(y, x) != _start) return false;
-            // Zaznacz x,y jako sciezka eksplorowana.
-            _cells[x, y].State = States.explored_path;
-            MessageBox.Show(y.ToString() + x.ToString());
-            // If find_path do gory od x,y jest true, return true.
-            if (MazeFindPath(x, y - 1) == true)
-            {
-                return true;
-            }
-            // If find_path w prawo od x,y jest true, return true.
-            if (MazeFindPath(x + 1, y) == true)
-            {
-                return true;
-            }
-            // If find_path w dol od x,y jest true, return true.
-            if (MazeFindPath(x, y + 1) == true)
-            {
-                return true;
-            }
-            // If find_path w lewo od x,y jest true, return true.
-            if (MazeFindPath(x - 1, y) == true)
-            {
-                return true;
-            }
-            // Zaznacz x,y jako sciezka prowadzaca do nikad.
-            _cells[x, y].State = States.bad_path;
-            return false;
+            _cells[9, 0].Fill = true;
         }
         public void ColorPath(Grid grid)
         {
@@ -220,41 +190,35 @@ namespace ProjectAcademy
             {
                 for (int j = 0; j < _dim.X; j++)
                 {
-                    if (_cells[i,j].State == States.explored_path)
+                    if (_cells[i, j].Fill)
                     {
-                        MessageBox.Show("dasda");
-                        // Create a red Ellipse
-                        Rectangle square = new Rectangle();
-                        Canvas myCanvas = new Canvas();
-
-                        // Set position of the ellipse
-                        square.Margin = new Thickness(i * MainWindow.lineLengh, j * MainWindow.lineLengh + 5, 0, 0);
-
-                        // Create a SolidColorBrush with a red color to fill the 
-                        // Ellipse with
-                        SolidColorBrush mySolidColorBrush = new SolidColorBrush();
-
-                        // Describes the brush's color using RGB values. 
-                        // Each value has a range of 0-255.
-                        mySolidColorBrush.Color = Color.FromArgb(255, 255, 255, 0);
-                        square.Fill = mySolidColorBrush;
-                        square.StrokeThickness = 2;
-                        square.Stroke = Brushes.Black;
-
-                        // Set the width and height of the Ellipse
-                        square.Width = MainWindow.lineLengh;
-                        square.Height = MainWindow.lineLengh;
-
-                        // Create a Canvas
-                        Canvas.SetLeft(square, myCanvas.ActualWidth / 2.0);
-                        Canvas.SetTop(square, myCanvas.ActualHeight / 2.0);
-
-                        // Add the Ellipse to the Grid.
-                        myCanvas.Children.Add(square);
-                        grid.Children.Add(myCanvas);
+                        CreateRectangle(
+                            (j * lineLengh),
+                            (i * lineLengh) - (lineLengh + 2 * _lineThickness),
+                            grid);
                     }
                 }
             }
+        }
+        private void CreateRectangle(int X, int Y, Grid grid)
+        {
+            // Create a Rectangle
+            Rectangle myRectangle = new Rectangle();
+            // Set Rectangle's width and height
+            myRectangle.Width = lineLengh - _lineThickness;
+            myRectangle.Height = lineLengh - _lineThickness;
+
+            // Create a Brush
+            SolidColorBrush Brush = new SolidColorBrush();
+            Brush.Color = Colors.Green;
+
+            // Set Rectangle's color and margin
+            myRectangle.Fill = Brush;
+            myRectangle.Margin = new Thickness(X, Y, 0, 0);
+            MessageBox.Show(myRectangle.Margin.ToString());
+
+            // Add line to the Grid.         
+            grid.Children.Add(myRectangle);
         }
         #endregion
         /// <summary>
