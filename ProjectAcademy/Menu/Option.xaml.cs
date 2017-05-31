@@ -20,6 +20,8 @@ namespace ProjectAcademy
     /// </summary>
     public partial class Option : Page
     {
+        private SolidColorBrush _solidColorBrush;
+        private Color _color;
         public Option()
         {
             InitializeComponent();
@@ -28,5 +30,37 @@ namespace ProjectAcademy
         {
             this.NavigationService.Navigate(new MainMenu());
         }
-    }
+        private void SetColors()
+        {
+            // ustawic kolor z configu
+        }
+        private void Btn_change_player_color_Click(object sender, RoutedEventArgs e)
+        {
+            _color = ColorPicker();
+           // Player.Color = _color;
+            _solidColorBrush.Color = _color;
+            myEllipse.Fill = _solidColorBrush;
+        }
+        private void Btn_change_line_color_Click(object sender, RoutedEventArgs e)
+        {
+            _color = ColorPicker();
+           // Maze.LineColor = _color;
+            _solidColorBrush.Color = _color;
+            myRectangle.Stroke = _solidColorBrush;
+        }
+        private System.Windows.Media.Color ColorPicker()
+        {
+            System.Windows.Forms.ColorDialog colorDialog =
+                       new System.Windows.Forms.ColorDialog();
+            colorDialog.AllowFullOpen = true;
+            colorDialog.ShowDialog();
+
+            System.Windows.Media.Color col = new System.Windows.Media.Color();
+            col.A = colorDialog.Color.A;
+            col.B = colorDialog.Color.B;
+            col.G = colorDialog.Color.G;
+            col.R = colorDialog.Color.R;
+            return col;
+        }
+                   }
 }

@@ -32,6 +32,8 @@ namespace ProjectAcademy
         protected readonly int lineLengh = MainWindow.lineLengh;
         protected readonly int bound = MainWindow.bound;
         private Point _start, _exit;
+        private int _hints = 2;
+        private bool _refresh = false;
         public enum Direction
         {
             up,
@@ -61,11 +63,14 @@ namespace ProjectAcademy
             _maze.RenderMaze(mazeGrid);
             // Render player at start position
             _player.Render(mazeGrid);
+            // Find escape from maze
+           // _maze.FindPath();
         }
         private void SettingPositions()
         {
+            Btn_Show_Solution.Content = $"Hints: {_hints}";
             Btn_Show_Solution.Margin = new Thickness(bound - 10, this.Height - bound * 3 + 4, 0, 0);
-            Btn_Back.Margin = new Thickness(bound + 10, this.Height - bound * 3 + 4, 0, 0);
+            Btn_Back.Margin = new Thickness(bound + (Btn_Show_Solution.Width - 11), this.Height - bound * 3 + 4, 0, 0);
             System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += dispatcherTimer_Tick;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
@@ -112,6 +117,18 @@ namespace ProjectAcademy
         {
             App.Current.MainWindow.Show();
             this.Close();
+        }
+        /// <summary>
+        /// Show path to exit
+        /// </summary>
+        private void Btn_Show_Solution_Click(object sender, RoutedEventArgs e)
+        {
+            --_hints;
+            Btn_Show_Solution.Content = $"Hints: {_hints}";
+            if (_hints == 0)
+                Btn_Show_Solution.IsEnabled = false;
+            _maze.ColorPath(gameGrid, Colors.LightGreen);
+            _refresh = true;
         }
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
@@ -173,17 +190,18 @@ namespace ProjectAcademy
         }
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
+            if (_refresh)
+            {
+                Thread.Sleep(3000);
+                _maze.ColorPath(gameGrid, Colors.White);
+                _refresh = false;
+                _count += 9;
+            }
             if (!_stopCounting)
                 Btn_labels.Content = "Time: " + (++_count).ToString() + " Sec";
         }
-
-        private void Btn_Show_Solution_Click(object sender, RoutedEventArgs e)
-        {
-            _maze.FindPath();
-            _maze.ColorPath(gameGrid);
-        }
         /// <summary>
-        /// Generate random int from minValue to max Value
+        /// Generate random int from minValue to maxValue
         /// </summary>
         public int RandomInt(int minValue, int maxValue)
         {

@@ -10,6 +10,16 @@ namespace ProjectAcademy
         private Point _position, _startPosition;
         private Ellipse _avatar;
         private Canvas _myCanvas = new Canvas();
+        private Color _color = Colors.Black;
+        public Color Color
+        {
+            get { return _color; }
+            set { _color = value; }
+        }
+        public static Color DefaultColor
+        {
+            get { return Colors.OrangeRed; }
+        }
         /// <summary>
         /// Initialize player position in myPoint
         /// </summary>
@@ -40,10 +50,8 @@ namespace ProjectAcademy
 
             // Describes the brush's color using RGB values. 
             // Each value has a range of 0-255.
-            mySolidColorBrush.Color = Color.FromArgb(255, 255, 255, 0);
+            mySolidColorBrush.Color = _color;
             _avatar.Fill = mySolidColorBrush;
-            _avatar.StrokeThickness = 2;
-            _avatar.Stroke = Brushes.Black;
 
             // Set the width and height of the Ellipse
             _avatar.Width = MainWindow.lineLengh / 2;

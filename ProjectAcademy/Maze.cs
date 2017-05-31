@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace ProjectAcademy
 {
@@ -12,12 +13,21 @@ namespace ProjectAcademy
         private const int _lineThickness = 1;
         private Point _start, _exit;
         private Cell[,] _cells = new Cell[0, 0];
+        private Color _lineColor = Colors.Red;
         // dimension of maze, _dim.X = width, _ dim.Y = height
         private Point _dim;
-
+        public Color LineColor
+        {
+            get { return _lineColor; }
+            set { _lineColor = value; }
+        }
+        public static Color DefaultLineColor
+        {
+            get { return Colors.Black; }
+        }
         public Maze(Point dim, Point s, Point e)
         {
-            this._dim = new Point(dim);
+            this._dim = dim;
             this._start = s; this._exit = e;
             // Filling array of cells
             FillArray(ref _cells, _dim.Y, _dim.X);
@@ -44,12 +54,12 @@ namespace ProjectAcademy
             myLine.Y2 = Y2;
 
             // Create a Brush
-            SolidColorBrush redBrush = new SolidColorBrush();
-            redBrush.Color = Colors.Red;
+            SolidColorBrush lineBrush = new SolidColorBrush();
+            lineBrush.Color = _lineColor;
 
             // Set Line's width and color
             myLine.StrokeThickness = _lineThickness;
-            myLine.Stroke = redBrush;
+            myLine.Stroke = lineBrush;
 
             // Add line to the Grid.         
             if (toCreate) grid.Children.Add(myLine);
@@ -159,7 +169,22 @@ namespace ProjectAcademy
                 if (UnvisitedCellFromQueue(ref currentCell, ref queue))
                     goto Step4;
                 else
+                {
+                    string text = String.Empty;
+                    for (int i = 0; i < 10; i++)
+                    {
+                        for (int j = 0; j < 10; j++)
+                        {
+                            text = _cells[i, j].NorthWall.ToString() + ' ' +
+                                _cells[i, j].SouthWall.ToString() + ' ' + _cells[i, j].WestWall.ToString() + ' ' + _cells[i, j].EastWall.ToString();
+                            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"PresentationMaze.txt", true))
+                            {
+                                file.WriteLine(text);
+                            }
+                        }
+                    }
                     return;
+                }
             }
             else
             {
@@ -176,55 +201,76 @@ namespace ProjectAcademy
         #region MazePathFinder
         public void FindPath()
         {
-            //TODO: opcje wyboru koloru kropki, scian i tla
-            //TODO: znajdowanie wyjscia z labiryntu
-            //TODO: okienko jak grac
-            //TODO: grafika i animacje
-            //TODO: dzwieki
-            //TODO: kolorowanie scian na inny kolor jesli wystapi kolizja
-            _cells[9, 0].Fill = true;
+            Player _player = new Player(_start);
+            Cells[_player.Position.Y, _player.Position.X].Fill = true;
+            while (_player.Position.X != _exit.X && _player.Position.Y != _exit.Y)
+            {
+                if (!_player.WallCollision(_player.Position.X, _player.Position.Y, Cells, _dim, Direction.right))
+                {
+                    if (!Cells[_player.Position.Y, _player.Position.X].Fill)
+                        _player.Position.X++;
+                }
+                else if (!_player.WallCollision(_player.Position.X, _player.Position.Y, Cells, _dim, Direction.up))
+                {
+                    if (!Cells[_player.Position.Y, _player.Position.X].Fill)
+                        _player.Position.Y--;
+                }
+                else if (!_player.WallCollision(_player.Position.X, _player.Position.Y, Cells, _dim, Direction.left))
+                {
+                    if (!Cells[_player.Position.Y, _player.Position.X].Fill)
+                        _player.Position.X--;
+                }
+                else if (!_player.WallCollision(_player.Position.X, _player.Position.Y, Cells, _dim, Direction.down))
+                {
+                    if (!Cells[_player.Position.Y, _player.Position.X].Fill)
+                        _player.Position.Y++;
+                }
+                Cells[_player.Position.Y, _player.Position.X].Fill = true;
+            }
         }
-        public void ColorPath(Grid grid)
+        public void ColorPath(Grid grid, Color color)
         {
             for (int i = 0; i < _dim.Y; i++)
             {
                 for (int j = 0; j < _dim.X; j++)
                 {
-                    if (_cells[i, j].Fill)
+                    if (_cells[i, j].State == States.explored_path)
                     {
                         CreateRectangle(
-                            (j * lineLengh),
-                            (i * lineLengh) - (lineLengh + 2 * _lineThickness),
-                            grid);
+                            (lineLengh - _lineThickness) + (j * lineLengh),
+                            (lineLengh - _lineThickness) + (i * lineLengh),
+                            grid, color);
                     }
                 }
             }
         }
-        private void CreateRectangle(int X, int Y, Grid grid)
+        private void CreateRectangle(int X, int Y, Grid grid, Color color)
         {
             // Create a Rectangle
             Rectangle myRectangle = new Rectangle();
             // Set Rectangle's width and height
-            myRectangle.Width = lineLengh - _lineThickness;
-            myRectangle.Height = lineLengh - _lineThickness;
+            myRectangle.Width = lineLengh;
+            myRectangle.Height = lineLengh;
 
             // Create a Brush
             SolidColorBrush Brush = new SolidColorBrush();
-            Brush.Color = Colors.Green;
+            Brush.Color = color;
 
             // Set Rectangle's color and margin
             myRectangle.Fill = Brush;
             myRectangle.Margin = new Thickness(X, Y, 0, 0);
-            MessageBox.Show(myRectangle.Margin.ToString());
+            myRectangle.HorizontalAlignment = HorizontalAlignment.Left;
+            myRectangle.VerticalAlignment = VerticalAlignment.Top;
+            //MessageBox.Show(myRectangle.Margin.ToString());
 
-            // Add line to the Grid.         
+            // Add rectangle to the Grid
             grid.Children.Add(myRectangle);
         }
         #endregion
         /// <summary>
         /// Fill the array with default value (0)
         /// </summary>
-        private void FillArray(ref Cell[,] LineList, int Row, int Col)
+        public void FillArray(ref Cell[,] LineList, int Row, int Col)
         {
             bool[] NestedList = new bool[Col];
             ResizeArray(ref LineList, Row, Col);
