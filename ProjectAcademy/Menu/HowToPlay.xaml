@@ -11,16 +11,16 @@
     <Grid>
         <Image x:Name="image" HorizontalAlignment="Left" Height="450" VerticalAlignment="Top" Width="550" Source="/ProjectAcademy;component/Graphics/Plane_Background.png"/>
         <Button x:Name="Btn_Back" Content="Back" HorizontalAlignment="Left" Margin="10,369,0,0" VerticalAlignment="Top" Width="125" Height="40" Click="Btn_Back_Click" Visibility="Visible"/>
-        <Grid x:Name="gridButtons" Margin="10,10,32,86">
+        <Grid x:Name="gridButtons" Margin="10,10,27,86">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity="0.3"/>
             </Grid.Background>
-            <Button x:Name="btn_up" FontFamily="Marlett" FontSize="40" Content="5" Width="50" Height="50" Margin="352,111,106,193"/>
-            <Button x:Name="btn_down" FontFamily="Marlett" FontSize="40" Content="6" Width="50" Height="50" Margin="352,161,106,143"/>
-            <Button x:Name="btn_right" FontFamily="Marlett" FontSize="40" Content="4" Width="50" Height="50" Margin="402,161,56,143"/>
-            <Button x:Name="btn_left" FontFamily="Marlett" FontSize="40" Content="3" Width="50" Height="50" Margin="302,161,156,143"/>
+            <Button x:Name="btn_up" FontFamily="Marlett" FontSize="40" Content="5" Width="50" Height="50" Margin="83,244,380,60"/>
+            <Button x:Name="btn_down" FontFamily="Marlett" FontSize="40" Content="6" Width="50" Height="50" Margin="83,294,380,10"/>
+            <Button x:Name="btn_right" FontFamily="Marlett" FontSize="40" Content="4" Width="50" Height="50" Margin="133,294,330,10"/>
+            <Button x:Name="btn_left" FontFamily="Marlett" FontSize="40" Content="3" Width="50" Height="50" Margin="33,294,430,10"/>
         </Grid>
-        <Grid x:Name="animationGrid" Panel.ZIndex="10" Margin="31,44,269,156" Width="202" Height="202">
+        <Grid x:Name="animationGrid" Panel.ZIndex="10" Margin="21,20,327,228" Width="202" Height="202">
         </Grid>
     </Grid>
 </Page>

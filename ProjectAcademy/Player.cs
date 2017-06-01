@@ -11,6 +11,11 @@ namespace ProjectAcademy
         private Ellipse _avatar;
         private Canvas _myCanvas = new Canvas();
         private Color _color = Colors.Black;
+        public Ellipse Avatar
+        {
+            get { return _avatar; }
+            set { _avatar = value; }
+        }
         public Color Color
         {
             get { return _color; }

@@ -1,19 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Threading;
 
 namespace ProjectAcademy
 {
@@ -27,13 +17,10 @@ namespace ProjectAcademy
         private Point _start, _exit;
         private Point _dim;
         // 8 - up, 6 - right, 5 - down
-        private int[] _moves = { 8, 8, 8, 8, 6, 5, 6, 8, 6, 6, 8, 6, 6, 5, 5, 6, 8, 8, 8, 8, 8, 6, 6, 8, 8, 6, 5, 6, 8, 6 };
-        System.Windows.Threading.DispatcherTimer timer1;
+        private int[] _moves = { 8, 8, 8, 8, 6, 8, 6, 6, 6, 8, 4, 4, 4, 6, 6, 6, 5, 4, 4, 4, 5,
+            5, 6, 8, 6, 6, 5, 5, 6, 8, 8, 8, 8, 8, 6, 6, 8, 8, 6, 5, 6, 8 };
         public HowToPlay()
         {
-            timer1 = new System.Windows.Threading.DispatcherTimer();
-            timer1.Tick += new EventHandler(timer1_tick);
-            timer1.Interval = new TimeSpan(0, 0, 5); //hours minutes seconds
             InitializeComponent();
             _dim = new Point(10, 10);
             _start = new Point(0, _dim.Y - 1); _exit = new Point(_dim.X - 1, 0);
@@ -53,31 +40,59 @@ namespace ProjectAcademy
         {
             this.NavigationService.Navigate(new MainMenu());
         }
-        private void BeginAnimation()
+        private async void BeginAnimation()
         {
-            foreach (var item in _moves)
+            var converter = new BrushConverter();
+            Brush playerBrushColor = (Brush)converter.ConvertFromString(_player.Color.ToString());
+            while (true)
             {
-                switch (item)
+                await Wait(1000);
+                foreach (var item in _moves)
                 {
-                    case 8:
-                        _player.Position.Y--;
-                        _player.UpdatePosition(_player.Position);
-                        break;
-                    case 6:
-                        _player.Position.X++;
-                        _player.UpdatePosition(_player.Position);
-                        break;
-                    case 5:
-                        _player.Position.Y++;
-                        _player.UpdatePosition(_player.Position);
-                        break;
+                    switch (item)
+                    {
+                        case 8:
+                            _player.Position.Y--;
+                            _player.UpdatePosition(_player.Position);
+                            btn_up.Foreground = playerBrushColor;
+                            break;
+                        case 6:
+                            _player.Position.X++;
+                            _player.UpdatePosition(_player.Position);
+                            btn_right.Foreground = playerBrushColor;
+                            break;
+                        case 5:
+                            _player.Position.Y++;
+                            _player.UpdatePosition(_player.Position);
+                            btn_down.Foreground = playerBrushColor;
+                            break;
+                        case 4:
+                            _player.Position.X--;
+                            _player.UpdatePosition(_player.Position);
+                            btn_left.Foreground = playerBrushColor;
+                            break;
+                    }
+                    await Wait(1000);
+                    ButtonsDefaultColors();
                 }
-                timer1.Start();
+                _player.Avatar.Visibility = Visibility.Hidden;
+                await Wait(3000);
+                _player.Position = new Point(_start);
+                _player.UpdatePosition(_player.Position);
+                _player.Avatar.Visibility = Visibility.Visible;
             }
         }
-        void timer1_tick(object sender, EventArgs e)
+        private async Task Wait(int msec)
         {
-            timer1.Stop();
+            await Task.Delay(msec);
+        }
+        private void ButtonsDefaultColors()
+        {
+            Brush color = Brushes.Black;
+            btn_up.Foreground = color;
+            btn_down.Foreground = color;
+            btn_right.Foreground = color;
+            btn_left.Foreground = color;
         }
         private void ReadPresentationMaze()
         {
