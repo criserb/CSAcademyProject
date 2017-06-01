@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.IO;
 
 namespace ProjectAcademy
 {
@@ -13,7 +12,7 @@ namespace ProjectAcademy
         private const int _lineThickness = 1;
         private Point _start, _exit;
         private Cell[,] _cells = new Cell[0, 0];
-        private Color _lineColor = Colors.Red;
+        private Color _lineColor;
         // dimension of maze, _dim.X = width, _ dim.Y = height
         private Point _dim;
         public Color LineColor
@@ -24,6 +23,10 @@ namespace ProjectAcademy
         public static Color DefaultLineColor
         {
             get { return Colors.Black; }
+        }
+        public static Color DefaultBackgroundColor
+        {
+            get { return Colors.White; }
         }
         public Maze(Point dim, Point s, Point e)
         {
@@ -143,7 +146,7 @@ namespace ProjectAcademy
                 currentCell = new Point(currentCell.X + 1, currentCell.Y);
             }
         }
-        public void GenerateMaze()
+        public void Generate()
         {
             // Step1: Randomly select a node (or cell) N
             Point currentCell = new Point(_start.Y, _start.X);
@@ -170,19 +173,7 @@ namespace ProjectAcademy
                     goto Step4;
                 else
                 {
-                    string text = String.Empty;
-                    for (int i = 0; i < 10; i++)
-                    {
-                        for (int j = 0; j < 10; j++)
-                        {
-                            text = _cells[i, j].NorthWall.ToString() + ' ' +
-                                _cells[i, j].SouthWall.ToString() + ' ' + _cells[i, j].WestWall.ToString() + ' ' + _cells[i, j].EastWall.ToString();
-                            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"PresentationMaze.txt", true))
-                            {
-                                file.WriteLine(text);
-                            }
-                        }
-                    }
+                    //SaveMazesWallsToFile();
                     return;
                 }
             }
@@ -194,6 +185,25 @@ namespace ProjectAcademy
                 BreakWalls(ref currentCell, dir);
                 // Step7: Go to step 2
                 goto Step2;
+            }
+        }
+        /// <summary>
+        /// Saving to maze to file "PresentationMaze.txt" 
+        /// </summary>
+        private void SaveMazeToFile()
+        {
+            string text = String.Empty;
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    text = _cells[i, j].NorthWall.ToString() + ' ' +
+                        _cells[i, j].SouthWall.ToString() + ' ' + _cells[i, j].WestWall.ToString() + ' ' + _cells[i, j].EastWall.ToString();
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"PresentationMaze.txt", true))
+                    {
+                        file.WriteLine(text);
+                    }
+                }
             }
         }
         #endregion All functions needed to generate the maze
@@ -296,7 +306,7 @@ namespace ProjectAcademy
         /// <summary>
         /// Render maze to the grid
         /// </summary>
-        public void RenderMaze(Grid grid)
+        public void Render(Grid grid)
         {
             for (int i = 0; i < _dim.Y; i++)
             {

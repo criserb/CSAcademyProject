@@ -27,9 +27,6 @@ namespace ProjectAcademy
     /// </summary>
     public partial class Ranking : Page
     {
-        private SQLiteDataAdapter m_oDataAdapter = null;
-        private DataSet m_oDataSet = null;
-        private DataTable m_oDataTable = null;
         public Ranking()
         {
             InitializeComponent();

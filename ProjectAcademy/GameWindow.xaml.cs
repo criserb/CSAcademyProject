@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Threading;
-using System.IO;
 
 namespace ProjectAcademy
 {
@@ -32,8 +22,14 @@ namespace ProjectAcademy
         protected readonly int lineLengh = MainWindow.lineLengh;
         protected readonly int bound = MainWindow.bound;
         private Point _start, _exit;
-        private int _hints = 2;
+        private int _hintsCount = 2;
         private bool _refresh = false;
+        private Brush _backgroundColor;
+        public Brush BackgroundColor
+        {
+            get { return _backgroundColor; }
+            set { _backgroundColor = value; }
+        }
         public enum Direction
         {
             up,
@@ -55,12 +51,15 @@ namespace ProjectAcademy
             InitializeObjects();
             this.Width = bound * 3 + (lineLengh * w) - lineLengh;
             this.Height = bound * 4 + (lineLengh * h);
+            // Setting background color
+            _backgroundColor = new SolidColorBrush(MainMenu.MazeBackgroundColor);
+            mazeGrid.Background = _backgroundColor;
             // Setting position of objects on grid
             SettingPositions();
             // Generate maze
-            _maze.GenerateMaze();
+            _maze.Generate();
             // Render maze
-            _maze.RenderMaze(mazeGrid);
+            _maze.Render(mazeGrid);
             // Render player at start position
             _player.Render(mazeGrid);
             // Find escape from maze
@@ -68,8 +67,8 @@ namespace ProjectAcademy
         }
         private void SettingPositions()
         {
-            Btn_Show_Solution.Content = $"Hints: {_hints}";
-            Btn_Show_Solution.Margin = new Thickness(bound - 10, this.Height - bound * 3 + 4, 0, 0);
+            Btn_Show_Solution.Content = $"Hints: {_hintsCount}";
+            Btn_Show_Solution.Margin = new Thickness(bound - 8, this.Height - bound * 3 + 4, 0, 0);
             Btn_Back.Margin = new Thickness(bound + (Btn_Show_Solution.Width - 11), this.Height - bound * 3 + 4, 0, 0);
             System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += dispatcherTimer_Tick;
@@ -85,12 +84,14 @@ namespace ProjectAcademy
             this._start = new Point(0, _dim.Y - 1);
             this._exit = new Point(_dim.X - 1, 0);
             this._maze = new Maze(_dim, _start, _exit);
+            this._maze.LineColor = MainMenu.MazeLineColor;
             this._player = new Player(_start);
+            this._player.Color = MainMenu.PlayerColor;
         }
         private void End()
         {
             _player.Position.X++;
-            _player.UpdatePosition(_player.Position);
+            _player.UpdatePosition();
             _player.Remove(mazeGrid);
             _stopCounting = true;
             Thread.Sleep(200);
@@ -123,9 +124,9 @@ namespace ProjectAcademy
         /// </summary>
         private void Btn_Show_Solution_Click(object sender, RoutedEventArgs e)
         {
-            --_hints;
-            Btn_Show_Solution.Content = $"Hints: {_hints}";
-            if (_hints == 0)
+            --_hintsCount;
+            Btn_Show_Solution.Content = $"Hints: {_hintsCount}";
+            if (_hintsCount == 0)
                 Btn_Show_Solution.IsEnabled = false;
             _maze.ColorPath(gameGrid, Colors.LightGreen);
             _refresh = true;
@@ -141,7 +142,7 @@ namespace ProjectAcademy
                             if (!_player.WallCollision(_player.Position.X, _player.Position.Y, _maze.Cells, _dim, Direction.up))
                             {
                                 _player.Position.Y--;
-                                _player.UpdatePosition(_player.Position);
+                                _player.UpdatePosition();
                             }
                         }
                         break;
@@ -153,7 +154,7 @@ namespace ProjectAcademy
                             if (!_player.WallCollision(_player.Position.X, _player.Position.Y, _maze.Cells, _dim, Direction.down))
                             {
                                 _player.Position.Y++;
-                                _player.UpdatePosition(_player.Position);
+                                _player.UpdatePosition();
                             }
                         }
                         break;
@@ -165,7 +166,7 @@ namespace ProjectAcademy
                             if (!_player.WallCollision(_player.Position.X, _player.Position.Y, _maze.Cells, _dim, Direction.left))
                             {
                                 _player.Position.X--;
-                                _player.UpdatePosition(_player.Position);
+                                _player.UpdatePosition();
                             }
                         }
                         break;
@@ -181,7 +182,7 @@ namespace ProjectAcademy
                             if (!_player.WallCollision(_player.Position.X, _player.Position.Y, _maze.Cells, _dim, Direction.right))
                             {
                                 _player.Position.X++;
-                                _player.UpdatePosition(_player.Position);
+                                _player.UpdatePosition();
                             }
                         }
                         break;

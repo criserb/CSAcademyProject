@@ -11,6 +11,6 @@
         <Button x:Name="Btn_Back" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Click="Btn_Back_Click" Margin="73,280,0,0" Height="20" VerticalContentAlignment="Center" RenderTransformOrigin="2.08,0.6"/>
         <Button x:Name="Btn_Show_Solution" Content="Hints: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" Margin="18,280,0,0" Click="Btn_Show_Solution_Click" Height="20" VerticalContentAlignment="Center" />
         <Button x:Name="Btn_labels" Content="Button" HorizontalAlignment="Left" Margin="205,280,0,0" VerticalAlignment="Top" Width="120"/>
-        <Grid x:Name="mazeGrid" Panel.ZIndex="10" Margin="18,18,19,41"/>
+        <Grid x:Name="mazeGrid" Panel.ZIndex="10" Margin="19,18,18,41"/>
     </Grid>
 </Window>

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace ProjectAcademy
 {
@@ -20,33 +21,92 @@ namespace ProjectAcademy
     /// </summary>
     public partial class Option : Page
     {
-        private SolidColorBrush _solidColorBrush;
+        private SolidColorBrush _playerBrush;
+        private SolidColorBrush _lineBrush;
+        private SolidColorBrush _backgroundBrush;
         private Color _color;
+        private bool _change = false;
+        private bool _saved = false;
+        private Maze _maze;
+        private Player _player;
         public Option()
         {
             InitializeComponent();
+            SetColors();
+            _maze = new Maze(new Point(10, 10), new Point(0, 9), new Point(9, 0));
+            _player = new Player(new Point(0, 9));
+            _maze.LineColor = MainMenu.MazeLineColor;
+            _maze.Generate();
+            _maze.Render(previewGrid);
+            _player.Color = MainMenu.PlayerColor;
+            _player.Render(previewGrid);
         }
         private void Btn_Back_Click(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new MainMenu());
+            if (_change && !_saved)
+            {
+                if (MessageBox.Show("Are you sure to back without saving changes?",
+                "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    this.NavigationService.Navigate(new MainMenu());
+            }
+            else this.NavigationService.Navigate(new MainMenu());
+        }
+        private void btn_save_Click(object sender, RoutedEventArgs e)
+        {
+            string configurationFile = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory.CurrentProjectFolder(), "Resources");
+            string text = ToHexColor(MainMenu.PlayerColor) + ' ' + ToHexColor(MainMenu.MazeLineColor) + ' ' + ToHexColor(MainMenu.MazeBackgroundColor);
+            File.WriteAllText(configurationFile + "/Config.txt", text);
+            _saved = true;
+        }
+        private string ToHexColor(Color color)
+        {
+            return String.Format("#{0}{1}{2}",
+                                 color.R.ToString("X2"),
+                                 color.G.ToString("X2"),
+                                 color.B.ToString("X2"));
         }
         private void SetColors()
         {
-            // ustawic kolor z configu
+            _playerBrush = new SolidColorBrush(MainMenu.PlayerColor);
+            myEllipse.Fill = _playerBrush;
+            _lineBrush = new SolidColorBrush(MainMenu.MazeLineColor);
+            myRectangle.Stroke = _lineBrush;
+            _backgroundBrush = new SolidColorBrush(MainMenu.MazeBackgroundColor);
+            myRectangleBackground.Fill = _backgroundBrush;
+            previewGrid.Background = _backgroundBrush;
         }
         private void Btn_change_player_color_Click(object sender, RoutedEventArgs e)
         {
             _color = ColorPicker();
-           // Player.Color = _color;
-            _solidColorBrush.Color = _color;
-            myEllipse.Fill = _solidColorBrush;
+            MainMenu.PlayerColor = _color;
+            _playerBrush = new SolidColorBrush(MainMenu.PlayerColor);
+            myEllipse.Fill = _playerBrush;
+            _player.Remove(previewGrid);
+            _player = new Player(new Point(0, 9));
+            _player.Color = MainMenu.PlayerColor;
+            _player.Render(previewGrid);
+            _change = true;
         }
         private void Btn_change_line_color_Click(object sender, RoutedEventArgs e)
         {
             _color = ColorPicker();
-           // Maze.LineColor = _color;
-            _solidColorBrush.Color = _color;
-            myRectangle.Stroke = _solidColorBrush;
+            MainMenu.MazeLineColor = _color;
+            _lineBrush = new SolidColorBrush(MainMenu.MazeLineColor);
+            myRectangle.Stroke = _lineBrush;
+            _maze.LineColor = MainMenu.MazeLineColor;
+            _maze.Render(previewGrid);
+            _change = true;
+        }
+
+        private void Btn_change_background_color_Click(object sender, RoutedEventArgs e)
+        {
+            _color = ColorPicker();
+            MainMenu.MazeBackgroundColor = _color;
+            _backgroundBrush = new SolidColorBrush(MainMenu.MazeBackgroundColor);
+            myRectangleBackground.Fill = _backgroundBrush;
+            _maze.BackgroundColor = _backgroundBrush;
+            previewGrid.Background = _backgroundBrush;
+            _change = true;
         }
         private System.Windows.Media.Color ColorPicker()
         {
@@ -62,5 +122,37 @@ namespace ProjectAcademy
             col.R = colorDialog.Color.R;
             return col;
         }
-                   }
+
+        private void btn_default_avatar_color_Click(object sender, RoutedEventArgs e)
+        {
+            MainMenu.PlayerColor = Player.DefaultColor;
+            _playerBrush = new SolidColorBrush(MainMenu.PlayerColor);
+            myEllipse.Fill = _playerBrush;
+            _player.Remove(previewGrid);
+            _player = new Player(new Point(0, 9));
+            _player.Color = MainMenu.PlayerColor;
+            _player.Render(previewGrid);
+            _change = true;
+        }
+
+        private void btn_default_line_color_Click(object sender, RoutedEventArgs e)
+        {
+            MainMenu.MazeLineColor = Maze.DefaultLineColor;
+            _lineBrush = new SolidColorBrush(MainMenu.MazeLineColor);
+            myRectangle.Stroke = _lineBrush;
+            _maze.LineColor = MainMenu.MazeLineColor;
+            _maze.Render(previewGrid);
+            _change = true;
+        }
+
+        private void btn_default_background_color_Click(object sender, RoutedEventArgs e)
+        {
+            MainMenu.MazeBackgroundColor = Maze.DefaultBackgroundColor;
+            _backgroundBrush = new SolidColorBrush(MainMenu.MazeBackgroundColor);
+            myRectangleBackground.Fill = _backgroundBrush;
+            _maze.BackgroundColor = _backgroundBrush;
+            previewGrid.Background = _backgroundBrush;
+            _change = true;
+        }
+    }
 }

@@ -31,7 +31,7 @@ namespace ProjectAcademy
             _player.Color = Player.DefaultColor;
             ReadPresentationMaze();
             // Render maze
-            _maze.RenderMaze(animationGrid);
+            _maze.Render(animationGrid);
             // Render player at start position
             _player.Render(animationGrid);
             BeginAnimation();
@@ -53,22 +53,22 @@ namespace ProjectAcademy
                     {
                         case 8:
                             _player.Position.Y--;
-                            _player.UpdatePosition(_player.Position);
+                            _player.UpdatePosition();
                             btn_up.Foreground = playerBrushColor;
                             break;
                         case 6:
                             _player.Position.X++;
-                            _player.UpdatePosition(_player.Position);
+                            _player.UpdatePosition();
                             btn_right.Foreground = playerBrushColor;
                             break;
                         case 5:
                             _player.Position.Y++;
-                            _player.UpdatePosition(_player.Position);
+                            _player.UpdatePosition();
                             btn_down.Foreground = playerBrushColor;
                             break;
                         case 4:
                             _player.Position.X--;
-                            _player.UpdatePosition(_player.Position);
+                            _player.UpdatePosition();
                             btn_left.Foreground = playerBrushColor;
                             break;
                     }
@@ -78,7 +78,7 @@ namespace ProjectAcademy
                 _player.Avatar.Visibility = Visibility.Hidden;
                 await Wait(3000);
                 _player.Position = new Point(_start);
-                _player.UpdatePosition(_player.Position);
+                _player.UpdatePosition();
                 _player.Avatar.Visibility = Visibility.Visible;
             }
         }
@@ -96,7 +96,8 @@ namespace ProjectAcademy
         }
         private void ReadPresentationMaze()
         {
-            String[] items = File.ReadAllText(@"PresentationMaze.txt").
+            string configurationFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory.CurrentProjectFolder(), "Resources");
+            String[] items = File.ReadAllText(configurationFile + "/PresentationMaze.txt").
                Split(new String[] { " ", Environment.NewLine },
                StringSplitOptions.RemoveEmptyEntries);
             int count = -1;

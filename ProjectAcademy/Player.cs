@@ -73,9 +73,9 @@ namespace ProjectAcademy
         /// <summary>
         /// Update position of player
         /// </summary>
-        public void UpdatePosition(Point position)
+        public void UpdatePosition()
         {
-            _avatar.Margin = new Thickness(position.X * MainWindow.lineLengh + 5, position.Y * MainWindow.lineLengh + 5, 0, 0);
+            _avatar.Margin = new Thickness(_position.X * MainWindow.lineLengh + 5, _position.Y * MainWindow.lineLengh + 5, 0, 0);
         }
         /// <summary>
         /// Remove player avatar from the gmae grid
