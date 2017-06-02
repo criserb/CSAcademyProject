@@ -53,7 +53,8 @@ namespace ProjectAcademy
             this.Height = bound * 4 + (lineLengh * h);
             // Setting background color
             _backgroundColor = new SolidColorBrush(MainMenu.MazeBackgroundColor);
-            mazeGrid.Background = _backgroundColor;
+            // mazeGrid.Background = _backgroundColor;
+            gameGrid.Background = _backgroundColor;
             // Setting position of objects on grid
             SettingPositions();
             // Generate maze
@@ -68,8 +69,8 @@ namespace ProjectAcademy
         private void SettingPositions()
         {
             Btn_Show_Solution.Content = $"Hints: {_hintsCount}";
-            Btn_Show_Solution.Margin = new Thickness(bound - 8, this.Height - bound * 3 + 4, 0, 0);
-            Btn_Back.Margin = new Thickness(bound + (Btn_Show_Solution.Width - 11), this.Height - bound * 3 + 4, 0, 0);
+            Btn_Show_Solution.Margin = new Thickness(bound + (Btn_Back.Width - 11), this.Height - bound * 3 + 4, 0, 0);
+            Btn_Back.Margin = new Thickness(bound - 8, this.Height - bound * 3 + 4, 0, 0);
             System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += dispatcherTimer_Tick;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);

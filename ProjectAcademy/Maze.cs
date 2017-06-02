@@ -253,7 +253,9 @@ namespace ProjectAcademy
                     }
                 }
             }
-        }
+        }/// <summary>
+         /// Create rectangle on (X,Y) on grid with specified color
+         /// </summary>
         private void CreateRectangle(int X, int Y, Grid grid, Color color)
         {
             // Create a Rectangle
@@ -271,14 +273,13 @@ namespace ProjectAcademy
             myRectangle.Margin = new Thickness(X, Y, 0, 0);
             myRectangle.HorizontalAlignment = HorizontalAlignment.Left;
             myRectangle.VerticalAlignment = VerticalAlignment.Top;
-            //MessageBox.Show(myRectangle.Margin.ToString());
 
             // Add rectangle to the Grid
             grid.Children.Add(myRectangle);
         }
         #endregion
         /// <summary>
-        /// Fill the array with default value (0)
+        /// Fill the array with new instances of cells
         /// </summary>
         public void FillArray(ref Cell[,] LineList, int Row, int Col)
         {
@@ -335,7 +336,7 @@ namespace ProjectAcademy
                     if (_cells[i, j].EastWall) // right
                     {
                         CreateLine((j * lineLengh) + lineLengh + _lineThickness, i * lineLengh,
-                            (j * lineLengh) + lineLengh + _lineThickness, (i * lineLengh) + lineLengh, true, grid);
+                            ((j * lineLengh) + lineLengh + _lineThickness) - 1, (i * lineLengh) + lineLengh, true, grid);
                     }
                     else
                     {

@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.IO;
 
 namespace ProjectAcademy
@@ -24,7 +16,6 @@ namespace ProjectAcademy
         private SolidColorBrush _playerBrush;
         private SolidColorBrush _lineBrush;
         private SolidColorBrush _backgroundBrush;
-        private Color _color;
         private bool _change = false;
         private bool _saved = false;
         private Maze _maze;
@@ -75,38 +66,36 @@ namespace ProjectAcademy
             myRectangleBackground.Fill = _backgroundBrush;
             previewGrid.Background = _backgroundBrush;
         }
+        private Color ChangeColor(out SolidColorBrush brush)
+        {
+            Color color;
+            color = ColorPicker();
+            brush = new SolidColorBrush(color);
+            _change = true;
+            return color;
+        }
         private void Btn_change_player_color_Click(object sender, RoutedEventArgs e)
         {
-            _color = ColorPicker();
-            MainMenu.PlayerColor = _color;
-            _playerBrush = new SolidColorBrush(MainMenu.PlayerColor);
+            MainMenu.PlayerColor = ChangeColor(out _playerBrush);
             myEllipse.Fill = _playerBrush;
             _player.Remove(previewGrid);
             _player = new Player(new Point(0, 9));
             _player.Color = MainMenu.PlayerColor;
             _player.Render(previewGrid);
-            _change = true;
         }
         private void Btn_change_line_color_Click(object sender, RoutedEventArgs e)
         {
-            _color = ColorPicker();
-            MainMenu.MazeLineColor = _color;
-            _lineBrush = new SolidColorBrush(MainMenu.MazeLineColor);
+            MainMenu.MazeLineColor = ChangeColor(out _lineBrush);
             myRectangle.Stroke = _lineBrush;
             _maze.LineColor = MainMenu.MazeLineColor;
             _maze.Render(previewGrid);
-            _change = true;
         }
 
         private void Btn_change_background_color_Click(object sender, RoutedEventArgs e)
         {
-            _color = ColorPicker();
-            MainMenu.MazeBackgroundColor = _color;
-            _backgroundBrush = new SolidColorBrush(MainMenu.MazeBackgroundColor);
+            MainMenu.MazeBackgroundColor = ChangeColor(out _backgroundBrush);
             myRectangleBackground.Fill = _backgroundBrush;
-            _maze.BackgroundColor = _backgroundBrush;
             previewGrid.Background = _backgroundBrush;
-            _change = true;
         }
         private System.Windows.Media.Color ColorPicker()
         {
