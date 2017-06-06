@@ -211,32 +211,9 @@ namespace ProjectAcademy
         #region MazePathFinder
         public void FindPath()
         {
-            Player _player = new Player(_start);
-            Cells[_player.Position.Y, _player.Position.X].Fill = true;
-            while (_player.Position.X != _exit.X && _player.Position.Y != _exit.Y)
-            {
-                if (!_player.WallCollision(_player.Position.X, _player.Position.Y, Cells, _dim, Direction.right))
-                {
-                    if (!Cells[_player.Position.Y, _player.Position.X].Fill)
-                        _player.Position.X++;
-                }
-                else if (!_player.WallCollision(_player.Position.X, _player.Position.Y, Cells, _dim, Direction.up))
-                {
-                    if (!Cells[_player.Position.Y, _player.Position.X].Fill)
-                        _player.Position.Y--;
-                }
-                else if (!_player.WallCollision(_player.Position.X, _player.Position.Y, Cells, _dim, Direction.left))
-                {
-                    if (!Cells[_player.Position.Y, _player.Position.X].Fill)
-                        _player.Position.X--;
-                }
-                else if (!_player.WallCollision(_player.Position.X, _player.Position.Y, Cells, _dim, Direction.down))
-                {
-                    if (!Cells[_player.Position.Y, _player.Position.X].Fill)
-                        _player.Position.Y++;
-                }
-                Cells[_player.Position.Y, _player.Position.X].Fill = true;
-            }
+            List<Point> openList = new List<Point>();
+            List<Point> closedList = new List<Point>();
+            openList.Add(_start);
         }
         public void ColorPath(Grid grid, Color color)
         {
@@ -244,7 +221,7 @@ namespace ProjectAcademy
             {
                 for (int j = 0; j < _dim.X; j++)
                 {
-                    if (_cells[i, j].State == States.explored_path)
+                    if (_cells[i, j].Fill)
                     {
                         CreateRectangle(
                             (lineLengh - _lineThickness) + (j * lineLengh),
@@ -253,9 +230,10 @@ namespace ProjectAcademy
                     }
                 }
             }
-        }/// <summary>
-         /// Create rectangle on (X,Y) on grid with specified color
-         /// </summary>
+        }
+        /// <summary>
+        /// Create rectangle on (X,Y) on grid with specified color
+        /// </summary>
         private void CreateRectangle(int X, int Y, Grid grid, Color color)
         {
             // Create a Rectangle
@@ -336,7 +314,7 @@ namespace ProjectAcademy
                     if (_cells[i, j].EastWall) // right
                     {
                         CreateLine((j * lineLengh) + lineLengh + _lineThickness, i * lineLengh,
-                            ((j * lineLengh) + lineLengh + _lineThickness) - 1, (i * lineLengh) + lineLengh, true, grid);
+                            ((j * lineLengh) + lineLengh + _lineThickness), ((i * lineLengh) + lineLengh), true, grid);
                     }
                     else
                     {
@@ -346,7 +324,7 @@ namespace ProjectAcademy
                     if (_cells[i, j].WestWall) // left
                     {
                         CreateLine(j * lineLengh, i * lineLengh,
-                            j * lineLengh, lineLengh + (i * lineLengh), true, grid);
+                            j * lineLengh, (lineLengh + (i * lineLengh)), true, grid);
                     }
                     else
                     {

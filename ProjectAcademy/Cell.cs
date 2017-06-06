@@ -1,11 +1,5 @@
 ﻿namespace ProjectAcademy
 {
-    public enum States
-    {
-        open_path,
-        explored_path,
-        bad_path
-    }
     public class Cell
     {
         private bool _northWall = true;
@@ -14,7 +8,6 @@
         private bool _eastWall = true;
         private bool _visited = false;
         private bool _fill = false;
-        private States _state;
         /// <summary>
         /// Up wall
         /// </summary>
@@ -22,11 +15,6 @@
         {
             get { return _fill; }
             set { _fill = value; }
-        }
-        public States State
-        {
-            get { return _state; }
-            set { _state = value; }
         }
         public bool NorthWall
         {

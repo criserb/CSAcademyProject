@@ -64,7 +64,7 @@ namespace ProjectAcademy
             // Render player at start position
             _player.Render(mazeGrid);
             // Find escape from maze
-           // _maze.FindPath();
+            _maze.FindPath();
         }
         private void SettingPositions()
         {
