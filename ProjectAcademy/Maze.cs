@@ -207,55 +207,6 @@ namespace ProjectAcademy
             }
         }
         #endregion All functions needed to generate the maze
-        // Find escape from maze
-        #region MazePathFinder
-        public void FindPath()
-        {
-            List<Point> openList = new List<Point>();
-            List<Point> closedList = new List<Point>();
-            openList.Add(_start);
-        }
-        public void ColorPath(Grid grid, Color color)
-        {
-            for (int i = 0; i < _dim.Y; i++)
-            {
-                for (int j = 0; j < _dim.X; j++)
-                {
-                    if (_cells[i, j].Fill)
-                    {
-                        CreateRectangle(
-                            (lineLengh - _lineThickness) + (j * lineLengh),
-                            (lineLengh - _lineThickness) + (i * lineLengh),
-                            grid, color);
-                    }
-                }
-            }
-        }
-        /// <summary>
-        /// Create rectangle on (X,Y) on grid with specified color
-        /// </summary>
-        private void CreateRectangle(int X, int Y, Grid grid, Color color)
-        {
-            // Create a Rectangle
-            Rectangle myRectangle = new Rectangle();
-            // Set Rectangle's width and height
-            myRectangle.Width = lineLengh;
-            myRectangle.Height = lineLengh;
-
-            // Create a Brush
-            SolidColorBrush Brush = new SolidColorBrush();
-            Brush.Color = color;
-
-            // Set Rectangle's color and margin
-            myRectangle.Fill = Brush;
-            myRectangle.Margin = new Thickness(X, Y, 0, 0);
-            myRectangle.HorizontalAlignment = HorizontalAlignment.Left;
-            myRectangle.VerticalAlignment = VerticalAlignment.Top;
-
-            // Add rectangle to the Grid
-            grid.Children.Add(myRectangle);
-        }
-        #endregion
         /// <summary>
         /// Fill the array with new instances of cells
         /// </summary>

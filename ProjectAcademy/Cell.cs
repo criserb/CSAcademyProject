@@ -7,15 +7,9 @@
         private bool _westWall = true;
         private bool _eastWall = true;
         private bool _visited = false;
-        private bool _fill = false;
         /// <summary>
         /// Up wall
         /// </summary>
-        public bool Fill
-        {
-            get { return _fill; }
-            set { _fill = value; }
-        }
         public bool NorthWall
         {
             get { return _northWall; }

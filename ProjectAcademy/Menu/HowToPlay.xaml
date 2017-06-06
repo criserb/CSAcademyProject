@@ -19,7 +19,7 @@
             <Button x:Name="btn_down" FontFamily="Marlett" FontSize="40" Content="6" Width="50" Height="50" Margin="83,294,380,10" IsHitTestVisible="False"/>
             <Button x:Name="btn_right" FontFamily="Marlett" FontSize="40" Content="4" Width="50" Height="50" Margin="133,294,330,10" IsHitTestVisible="False"/>
             <Button x:Name="btn_left" FontFamily="Marlett" FontSize="40" Content="3" Width="50" Height="50" Margin="33,294,430,10" IsHitTestVisible="False"/>
-            <TextBlock xml:space="preserve" x:Name="textBox" HorizontalAlignment="Left" Height="188" Margin="261,24,0,0" VerticalAlignment="Top" Width="217" Background="{x:Null}" FontSize="18" RenderTransformOrigin="0.5,0.5">
+            <TextBlock xml:space="preserve" x:Name="textBox_Arrows" HorizontalAlignment="Left" Height="188" Margin="249,120,0,0" VerticalAlignment="Top" Width="217" Background="{x:Null}" FontSize="18" RenderTransformOrigin="0.5,0.5">
                 <TextBlock.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -36,6 +36,19 @@
     - Arrow right - go right
                 </TextBlock.Text>
             </TextBlock>
+            <TextBlock xml:space="preserve" x:Name="textBox_Goal" HorizontalAlignment="Right" Height="106" Margin="0,-28,-31,0" Width="315" Background="{x:Null}" FontSize="24" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top" FontWeight="Bold">
+                <TextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleY="-0.145"/>
+                        <RotateTransform/>
+                        <TranslateTransform Y="-0.497"/>
+                    </TransformGroup>
+                </TextBlock.RenderTransform>
+                <TextBlock.Text>
+The goal of the game is
+to find the exit labyrinth
+                </TextBlock.Text><Run Text="&#xA;                &#xA;                &#xA;            "/></TextBlock>
         </Grid>
         <Grid x:Name="animationGrid" Panel.ZIndex="10" Margin="21,20,327,228" Width="202" Height="202"/>
     </Grid>
