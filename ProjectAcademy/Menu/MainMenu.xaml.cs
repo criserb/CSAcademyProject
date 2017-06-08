@@ -62,5 +62,12 @@ namespace ProjectAcademy
             ButtonClickSound.Play();
             this.NavigationService.Navigate(new Option());
         }
+
+        private void Btn_About_Click(object sender, RoutedEventArgs e)
+        {
+            App.Current.MainWindow.Hide();
+            AboutWindow AboutWindow = new AboutWindow();
+            AboutWindow.Show();
+        }
     }
 }

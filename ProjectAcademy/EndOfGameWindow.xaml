@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectAcademy"
         mc:Ignorable="d"
-        Title="Maze" Height="420" Width="620">
+        Title="Maze" Height="420" Width="620" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <MediaElement x:Name="mediaAnimation" HorizontalAlignment="Left" Height="393" VerticalAlignment="Top" Width="712">
             <MediaElement.Triggers>

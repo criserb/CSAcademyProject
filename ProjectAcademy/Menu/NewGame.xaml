@@ -9,7 +9,7 @@
       Title="Generator">
 
     <Grid Margin="0,0,-252,0">
-        <Image x:Name="image" HorizontalAlignment="Left" Height="450" VerticalAlignment="Top" Width="550" Source="/ProjectAcademy;component/Graphics/Background.png"/>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="450" VerticalAlignment="Top" Width="550" Source="/Maze;component/Graphics/Background.png"/>
 
         <Button x:Name="Btn_Generate_Maze" Content="Generate Maze" HorizontalAlignment="Left" Margin="407,369,0,0" VerticalAlignment="Top" Width="125" Height="40" Click="Btn_Generate_Maze_Click" Visibility="Visible"/>
         <Button x:Name="Btn_Back" Content="Back" HorizontalAlignment="Left" Margin="10,369,0,0" VerticalAlignment="Top" Width="125" Height="40" Click="Btn_Back_Click" Visibility="Visible"/>

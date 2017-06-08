@@ -21,6 +21,7 @@ namespace ProjectAcademy
     {
         private string _time;
         private Point _dim;
+        private bool _stopAnimation = false;
         public EndOfGame(string time, Point dim)
         {
             InitializeComponent();
@@ -38,15 +39,19 @@ namespace ProjectAcademy
             char tmp;
             for (int i = 0; i < score.Length; i++)
             {
-                tmp = score[i];
-                textBlock_Time.Text += tmp;
-                MainMenu.ButtonClickSound.Play();
-                await Task.Delay(200);
+                if (!_stopAnimation)
+                {
+                    tmp = score[i];
+                    textBlock_Time.Text += tmp;
+                    MainMenu.ButtonClickSound.Play();
+                    await Task.Delay(200);
+                }
             }
         }
 
         private void button_No_Click(object sender, RoutedEventArgs e)
         {
+            _stopAnimation = true;
             MainMenu.ButtonClickSound.Play();
             this.Close();
             App.Current.MainWindow.Show();
@@ -54,6 +59,7 @@ namespace ProjectAcademy
 
         private void button_Yes_Click(object sender, RoutedEventArgs e)
         {
+            _stopAnimation = true;
             MainMenu.ButtonClickSound.Play();
             string nick = Microsoft.VisualBasic.Interaction.InputBox("Please enter your nickname", "Saving score", "Your nickname");
             // Check if data base exist

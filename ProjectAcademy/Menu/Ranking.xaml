@@ -10,7 +10,7 @@
 
 
     <Grid>
-        <Image x:Name="image" HorizontalAlignment="Left" Height="450" VerticalAlignment="Top" Width="550" Source="/ProjectAcademy;component/Graphics/Plane_Background.png"/>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="450" VerticalAlignment="Top" Width="550" Source="/Maze;component/Graphics/Plane_Background.png"/>
         <Grid Width="550" Height="400">
             <WrapPanel Margin="0,350,0,20" Grid.RowSpan="2">
                 <Button Content="Back" x:Name="btn_Back" Margin="5"
