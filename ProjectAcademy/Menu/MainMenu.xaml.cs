@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Media;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ProjectAcademy
 {
@@ -24,6 +15,10 @@ namespace ProjectAcademy
         public static Color PlayerColor { get; set; }
         public static Color MazeLineColor { get; set; }
         public static Color MazeBackgroundColor { get; set; }
+        public static SoundPlayer ButtonClickSound { get; set; }
+        public static SoundPlayer PlayerWalkSound { get; set; }
+        public static SoundPlayer SliderClickSound { get; set; }
+        public static SoundPlayer Yeah { get; set; }
         public MainMenu()
         {
             InitializeComponent();
@@ -41,25 +36,30 @@ namespace ProjectAcademy
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
+            ButtonClickSound.Play();
             Application.Current.Shutdown();
         }
 
         private void New_game_Click(object sender, RoutedEventArgs e)
         {
+            ButtonClickSound.Play();
             this.NavigationService.Navigate(new NewGame());
         }
 
         private void Ranking_Click(object sender, RoutedEventArgs e)
         {
+            ButtonClickSound.Play();
             this.NavigationService.Navigate(new Ranking());
         }
 
         private void Btn_New_How_To_Play_Click(object sender, RoutedEventArgs e)
         {
+            ButtonClickSound.Play();
             this.NavigationService.Navigate(new HowToPlay());
         }
         private void Btn_Options_Click(object sender, RoutedEventArgs e)
         {
+            ButtonClickSound.Play();
             this.NavigationService.Navigate(new Option());
         }
     }

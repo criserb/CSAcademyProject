@@ -19,6 +19,7 @@ using System.Data.SqlTypes;
 using System.Data;
 using System.ComponentModel;
 using System.Globalization;
+using System.Media;
 
 namespace ProjectAcademy
 {
@@ -42,16 +43,20 @@ namespace ProjectAcademy
             }
             else
             {
+                SystemSounds.Asterisk.Play();
                 MessageBox.Show("Scoreboard does not exist. First play the game");
             }
         }
         private void btn_Back_Click(object sender, RoutedEventArgs e)
         {
+            MainMenu.ButtonClickSound.Play();
             this.NavigationService.Navigate(new MainMenu());
         }
 
         private void btn_Reset_Click(object sender, RoutedEventArgs e)
         {
+            MainMenu.ButtonClickSound.Play();
+            SystemSounds.Asterisk.Play();
             if (MessageBox.Show("Are you sure you want to remove the scoreboard?",
                 "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {

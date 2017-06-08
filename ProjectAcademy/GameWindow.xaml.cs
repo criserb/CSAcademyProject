@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Threading;
+using System.Media;
 
 namespace ProjectAcademy
 {
@@ -89,28 +90,15 @@ namespace ProjectAcademy
             _player.UpdatePosition();
             _player.Remove(mazeGrid);
             _stopCounting = true;
-            Thread.Sleep(200);
-            if (MessageBox.Show("Gratulations! You managed to get through the maze in time " +
-                this._count.ToString() + " seconds! Do you want to save your score?",
-                "Win", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-            {
-                string nick = Microsoft.VisualBasic.Interaction.InputBox("Please enter your nickname", "Saving score", "Your nickname");
-                // Check if data base exist
-                if (!Rank.IsDataBaseExist())
-                {
-                    Rank.CreateDataBase();
-                    Rank.Add(nick, Convert.ToInt32(this._count), _dim);
-                }
-                else
-                {
-                    Rank.Add(nick, Convert.ToInt32(this._count), _dim);
-                }
-            }
-            App.Current.MainWindow.Show();
+            MainMenu.Yeah.Play();
+            Thread.Sleep(700);
             this.Close();
+            EndOfGame EndOfGame = new EndOfGame(_count.ToString(), _dim);
+            EndOfGame.Show();
         }
         private void Btn_Back_Click(object sender, RoutedEventArgs e)
         {
+            MainMenu.ButtonClickSound.Play();
             App.Current.MainWindow.Show();
             this.Close();
         }
@@ -119,6 +107,7 @@ namespace ProjectAcademy
         /// </summary>
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
+            MainMenu.PlayerWalkSound.Play();
             switch (e.Key)
             {
                 case Key.Up:

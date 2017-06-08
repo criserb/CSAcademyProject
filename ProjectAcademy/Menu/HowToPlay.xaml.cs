@@ -38,6 +38,7 @@ namespace ProjectAcademy
         }
         private void Btn_Back_Click(object sender, RoutedEventArgs e)
         {
+            MainMenu.ButtonClickSound.Play();
             this.NavigationService.Navigate(new MainMenu());
         }
         private async void BeginAnimation()

@@ -282,7 +282,6 @@ namespace ProjectAcademy
                         CreateLine(j * lineLengh, i * lineLengh,
                           j * lineLengh, (i * lineLengh) + lineLengh, false, grid);
                     }
-
                 }
             }
         }

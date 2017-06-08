@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.IO;
+using System.Media;
 
 namespace ProjectAcademy
 {
@@ -34,8 +35,10 @@ namespace ProjectAcademy
         }
         private void Btn_Back_Click(object sender, RoutedEventArgs e)
         {
+            MainMenu.ButtonClickSound.Play();
             if (_change && !_saved)
             {
+                SystemSounds.Asterisk.Play();
                 if (MessageBox.Show("Are you sure to back without saving changes?",
                 "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     this.NavigationService.Navigate(new MainMenu());
@@ -44,6 +47,7 @@ namespace ProjectAcademy
         }
         private void btn_save_Click(object sender, RoutedEventArgs e)
         {
+            MainMenu.ButtonClickSound.Play();
             string configurationFile = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory.CurrentProjectFolder(), "Resources");
             string text = ToHexColor(MainMenu.PlayerColor) + ' ' + ToHexColor(MainMenu.MazeLineColor) + ' ' + ToHexColor(MainMenu.MazeBackgroundColor);
             File.WriteAllText(configurationFile + "/Config.txt", text);
@@ -76,6 +80,7 @@ namespace ProjectAcademy
         }
         private void Btn_change_player_color_Click(object sender, RoutedEventArgs e)
         {
+            MainMenu.ButtonClickSound.Play();
             MainMenu.PlayerColor = ChangeColor(out _playerBrush);
             myEllipse.Fill = _playerBrush;
             _player.Remove(previewGrid);
@@ -85,6 +90,7 @@ namespace ProjectAcademy
         }
         private void Btn_change_line_color_Click(object sender, RoutedEventArgs e)
         {
+            MainMenu.ButtonClickSound.Play();
             MainMenu.MazeLineColor = ChangeColor(out _lineBrush);
             myRectangle.Stroke = _lineBrush;
             _maze.LineColor = MainMenu.MazeLineColor;
@@ -93,6 +99,7 @@ namespace ProjectAcademy
 
         private void Btn_change_background_color_Click(object sender, RoutedEventArgs e)
         {
+            MainMenu.ButtonClickSound.Play();
             MainMenu.MazeBackgroundColor = ChangeColor(out _backgroundBrush);
             myRectangleBackground.Fill = _backgroundBrush;
             previewGrid.Background = _backgroundBrush;
@@ -114,6 +121,7 @@ namespace ProjectAcademy
 
         private void btn_default_avatar_color_Click(object sender, RoutedEventArgs e)
         {
+            MainMenu.ButtonClickSound.Play();
             MainMenu.PlayerColor = Player.DefaultColor;
             _playerBrush = new SolidColorBrush(MainMenu.PlayerColor);
             myEllipse.Fill = _playerBrush;
@@ -126,6 +134,7 @@ namespace ProjectAcademy
 
         private void btn_default_line_color_Click(object sender, RoutedEventArgs e)
         {
+            MainMenu.ButtonClickSound.Play();
             MainMenu.MazeLineColor = Maze.DefaultLineColor;
             _lineBrush = new SolidColorBrush(MainMenu.MazeLineColor);
             myRectangle.Stroke = _lineBrush;
@@ -136,6 +145,7 @@ namespace ProjectAcademy
 
         private void btn_default_background_color_Click(object sender, RoutedEventArgs e)
         {
+            MainMenu.ButtonClickSound.Play();
             MainMenu.MazeBackgroundColor = Maze.DefaultBackgroundColor;
             _backgroundBrush = new SolidColorBrush(MainMenu.MazeBackgroundColor);
             myRectangleBackground.Fill = _backgroundBrush;
