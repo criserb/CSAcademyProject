@@ -45,5 +45,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <TextBox x:Name="searchBox" HorizontalAlignment="Left" Height="24" Margin="415,378,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="searchBox_TextChanged"/>
+        <Image x:Name="image1" HorizontalAlignment="Left" Height="33" Margin="504,375,0,0" VerticalAlignment="Top" Width="34" Source="/Maze;component/Graphics/Search.png"/>
     </Grid>
 </Page>

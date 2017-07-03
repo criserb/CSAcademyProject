@@ -7,42 +7,25 @@
         mc:Ignorable="d"
         Title="Maze" Height="420" Width="620" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
-        <MediaElement x:Name="mediaAnimation" HorizontalAlignment="Left" Height="393" VerticalAlignment="Top" Width="712">
-            <MediaElement.Triggers>
-                <EventTrigger RoutedEvent="MediaElement.Loaded">
-                    <EventTrigger.Actions>
-                        <BeginStoryboard>
-                            <Storyboard>
-
-                                <!-- The MediaTimeline has a RepeatBehavior="Forever" which makes the media play
-                     over and over indefinitely.-->
-                                <MediaTimeline x:Name="mediaTimeline" Storyboard.TargetName="mediaAnimation"  
-                 RepeatBehavior="Forever" />
-
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger.Actions>
-                </EventTrigger>
-            </MediaElement.Triggers>
-        </MediaElement>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="50,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="145" Width="507" FontSize="36" FontWeight="Bold">
+        <Image x:Name="image" HorizontalAlignment="Left" Height="582" VerticalAlignment="Top" Width="614" Source="Graphics/Plane_background.png" Margin="0,0,0,-191"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="50,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="203" Width="507" FontSize="36" FontWeight="Bold">
             <TextBlock.Foreground>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="White" Offset="0"/>
-                    <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="#FF9369BD" Offset="0.522"/>
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FF1B1B1B" Offset="0.522"/>
                 </LinearGradientBrush>
             </TextBlock.Foreground>
         </TextBlock>
         <TextBlock x:Name="textBlock_Time" HorizontalAlignment="Left" Margin="50,213,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="145" Width="507" FontSize="36" FontWeight="Bold">
             <TextBlock.Foreground>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="White" Offset="0"/>
-                    <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="#FF9369BD" Offset="0.522"/>
+                    <GradientStop Color="#FF191717" Offset="0"/>
+                    <GradientStop Color="#FF191717" Offset="1"/>
+                    <GradientStop Color="#FF1B1B1B" Offset="0.522"/>
                 </LinearGradientBrush>
             </TextBlock.Foreground></TextBlock>
-        <Button x:Name="button_No" Content="Cancel" Margin="10,327,467,10" FontSize="32" FontWeight="Bold" VerticalAlignment="Top" Click="button_No_Click" Background="{x:Null}" Foreground="#FFFFD2D2" MouseEnter="button_No_MouseEnter" MouseLeave="button_No_MouseLeave"/>
-        <Button x:Name="button_Yes" Content="Save" Margin="467,327,10,10" FontSize="32" FontWeight="Bold" Click="button_Yes_Click" Background="{x:Null}" Foreground="#FFFFD2D2" MouseEnter="button_Yes_MouseEnter" MouseLeave="button_Yes_MouseLeave"/>
+        <Button x:Name="button_No" Content="Cancel" Margin="10,327,467,10" FontSize="32" FontWeight="Bold" VerticalAlignment="Top" Click="button_No_Click" Background="{x:Null}" Foreground="#FF616161" MouseEnter="button_No_MouseEnter" MouseLeave="button_No_MouseLeave"/>
+        <Button x:Name="button_Yes" Content="Save" Margin="467,327,10,10" FontSize="32" FontWeight="Bold" Click="button_Yes_Click" Background="{x:Null}" Foreground="#FF616161" MouseEnter="button_Yes_MouseEnter" MouseLeave="button_Yes_MouseLeave"/>
     </Grid>
 </Window>

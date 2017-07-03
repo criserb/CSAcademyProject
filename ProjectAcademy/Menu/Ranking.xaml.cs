@@ -64,5 +64,24 @@ namespace ProjectAcademy
                 InitBinding();
             }
         }
+
+        private void searchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            List<Record> listForSearch = new List<Record>();
+            foreach (var item in Rank.GetSortedList())
+            {
+                if (searchBox.Text.Length > 0)
+                {
+                    if (item.Nick.Contains(searchBox.Text))
+                        listForSearch.Add(item);
+                }
+            }
+            if (listForSearch.Count > 0)
+            {
+                lstItems.ItemsSource = listForSearch;
+            }
+            else
+                lstItems.ItemsSource = Rank.GetSortedList();
+        }
     }
 }

@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ProjectAcademy
 {
@@ -28,8 +20,6 @@ namespace ProjectAcademy
             _time = time; _dim = dim;
             button_No.Foreground = textBlock.Foreground;
             button_Yes.Foreground = button_No.Foreground;
-            string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory.CurrentProjectFolder(), "Resources");
-            mediaTimeline.Source = new Uri(path + "/Flying.wmv");
             textBlock.Text = "Gratulations!\nYou managed to get through the maze. Do you want to save your score?";
             TextAnimation(time);
         }
