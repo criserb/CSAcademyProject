@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Media;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Navigation;
 
 namespace ProjectAcademy
@@ -20,6 +19,9 @@ namespace ProjectAcademy
             frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
             LoadSounds();
         }
+        /// <summary>
+        /// Loading resources
+        /// </summary>
         private void LoadSounds()
         {
             string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory.CurrentProjectFolder(), "Resources");

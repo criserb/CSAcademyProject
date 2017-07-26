@@ -15,6 +15,9 @@ namespace ProjectAcademy
             // Create a new database connection
             _sqlite_conn = new SQLiteConnection("Data Source=Highscores.sqlite;Version=3;");
         }
+        /// <summary>
+        /// Adding new entry to database
+        /// </summary>
         public static void Add(string nick, int time, Point dim)
         {
             _sqlite_conn.Open();
@@ -24,7 +27,9 @@ namespace ProjectAcademy
             _sqlite_cmd.ExecuteNonQuery();
             _sqlite_conn.Close();
         }
-
+        /// <summary>
+        /// Clearing data base
+        /// </summary>
         public static void ResetDataBase()
         {
             _sqlite_conn.Open();
@@ -35,6 +40,9 @@ namespace ProjectAcademy
 
             _sqlite_conn.Close();
         }
+        /// <summary>
+        /// Creating empty data base
+        /// </summary>
         public static void CreateDataBase()
         {
             _sqlite_conn.Open();
@@ -48,12 +56,19 @@ namespace ProjectAcademy
             // We are ready, now lets cleanup and close our connection:
             _sqlite_conn.Close();
         }
+        /// <summary>
+        /// Checking exist of database
+        /// </summary>
         public static bool IsDataBaseExist()
         {
             if (File.Exists(@"Highscores.sqlite"))
                 return true;
             else return false;
+
         }
+        /// <summary>
+        /// Geting list of records from data base
+        /// </summary>
         public static List<Record> GetSortedList()
         {
             int count = 1;

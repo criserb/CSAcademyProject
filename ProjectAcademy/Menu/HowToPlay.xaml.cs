@@ -16,7 +16,7 @@ namespace ProjectAcademy
         private Player _player;
         private Point _start, _exit;
         private Point _dim;
-        // 8 - up, 6 - right, 5 - down
+        // 8 - up, 6 - right, 5 - down, 4 - left
         private int[] _moves = { 8, 8, 8, 8, 6, 8, 6, 6, 6, 8, 4, 4, 4, 6, 6, 6, 5, 4, 4, 4, 5,
             5, 6, 8, 6, 6, 5, 5, 6, 8, 8, 8, 8, 8, 6, 6, 8, 8, 6, 5, 6, 8 };
         public HowToPlay()
@@ -41,6 +41,9 @@ namespace ProjectAcademy
             MainMenu.ButtonClickSound.Play();
             this.NavigationService.Navigate(new MainMenu());
         }
+        /// <summary>
+        /// Start tutorial animation
+        /// </summary>
         private async void BeginAnimation()
         {
             var converter = new BrushConverter();
@@ -83,9 +86,9 @@ namespace ProjectAcademy
                 _player.Avatar.Visibility = Visibility.Visible;
             }
         }
-        private async Task Wait(int msec)
+        private async Task Wait(int mSec)
         {
-            await Task.Delay(msec);
+            await Task.Delay(mSec);
         }
         private void ButtonsDefaultColors()
         {
@@ -95,6 +98,9 @@ namespace ProjectAcademy
             btn_right.Foreground = color;
             btn_left.Foreground = color;
         }
+        /// <summary>
+        /// Load maze for tutorial
+        /// </summary>
         private void ReadPresentationMaze()
         {
             string configurationFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory.CurrentProjectFolder(), "Resources");

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -60,7 +59,7 @@ namespace ProjectAcademy
             SolidColorBrush lineBrush = new SolidColorBrush();
             lineBrush.Color = _lineColor;
 
-            // Set Line's width and color
+            // Set line's width and color
             myLine.StrokeThickness = _lineThickness;
             myLine.Stroke = lineBrush;
 

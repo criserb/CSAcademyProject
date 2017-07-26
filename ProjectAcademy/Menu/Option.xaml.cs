@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -60,6 +58,9 @@ namespace ProjectAcademy
                                  color.G.ToString("X2"),
                                  color.B.ToString("X2"));
         }
+        /// <summary>
+        /// Setting colors of maze
+        /// </summary>
         private void SetColors()
         {
             _playerBrush = new SolidColorBrush(MainMenu.PlayerColor);
@@ -104,14 +105,14 @@ namespace ProjectAcademy
             myRectangleBackground.Fill = _backgroundBrush;
             previewGrid.Background = _backgroundBrush;
         }
-        private System.Windows.Media.Color ColorPicker()
+        private Color ColorPicker()
         {
             System.Windows.Forms.ColorDialog colorDialog =
                        new System.Windows.Forms.ColorDialog();
             colorDialog.AllowFullOpen = true;
             colorDialog.ShowDialog();
 
-            System.Windows.Media.Color col = new System.Windows.Media.Color();
+            Color col = new Color();
             col.A = colorDialog.Color.A;
             col.B = colorDialog.Color.B;
             col.G = colorDialog.Color.G;

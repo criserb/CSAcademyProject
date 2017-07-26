@@ -24,6 +24,9 @@ namespace ProjectAcademy
             InitializeComponent();
             LoadConfig();
         }
+        /// <summary>
+        /// Loading color options from file
+        /// </summary>
         private void LoadConfig()
         {
             string configurationFile = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory.CurrentProjectFolder(), "Resources");
