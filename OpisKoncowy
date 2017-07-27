@@ -1,0 +1,36 @@
+Link do wideoprezentacji: https://youtu.be/4_JpeI4E9fQ
+
+Zmiana odnośnie autorów:
+Projekt zrealizował wyłącznie Krzysztof Bądkowski.
+
+Zastosowane technologie: WPF, SQLite.
+
+Projekt w całości spełnia wymagania, które zostały przedstawione w pliku o nazwie "WstepnyOpis".
+Dodano również kilka nowych funkcjonalności:
+
+- okno How to play - okno pokazujące jak grać. Jest to przedstawione następjąco:
+	w pliku o nazwie "PresentationMaze.txt" jest na sztywno napisana konfiguracja
+	pokazowego labiryntu i avatar porusza się wytyczoną drogą wykonując ruch 
+	co 1 sekundę. W kierunku, w którym aktualnie wykonuje ruch zapala się odpowiednia 
+	strzałka symbolizująca strzałkę znajdującą się na klawiaturze.
+
+- okno About - wyświetla informację na temat zastosowanego algorytmu generującego labirynt,
+	informacje o autorze, a także źródło efektów dźwiękowych.
+
+- okno Options - tutaj można dostosowywać kolory poszczególnych elementów labiryntu, czyli kolor
+	ścian, avatara i tła labiryntu. Zmiany są zapisywane i odczytywane z pliku o nazwie "Config.txt".
+
+Pozostałe okna:
+- okno Ranking - wyświetla ranking graczy.
+
+- okno New Game - pokazuje się wybór rozmiaru labiryntu. Po kliknięciu przycisku "Generate Maze" zostanie
+	wygenerowany labirynt.
+
+Do generowania labiryntu został wykorzystany Depth First Search Algorithm.
+
+Aby zacząć grę trzeba nacisnąć przycisk New game, który przekierowuje nas do strony, na której
+możemy wybrać rozmiar labiryntu a następnie go wygenerować i poruszać się po nim.
+Po jego wygenerowaniu natychmiast zaczyna odliczać się czas. Kiedy uda nam się dotrzeć do wyjścia
+pojawia ukazuje się ekran, na którym widnieją gratulacje i czas w sekundach jaki potrzebowaliśmy
+aby dotrzeć do wyjścia. Następnie możemy zadecydować czy chcemy aby nasz wynik został zapisany
+w rankingu, jeśli tak zostaniemy poproszeni o podanie nazwy gracza.
