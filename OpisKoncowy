@@ -19,6 +19,9 @@ Dodano również kilka nowych funkcjonalności:
 
 - okno Options - tutaj można dostosowywać kolory poszczególnych elementów labiryntu, czyli kolor
 	ścian, avatara i tła labiryntu. Zmiany są zapisywane i odczytywane z pliku o nazwie "Config.txt".
+	Przy otwarciu menu głównego od razu są pobierane do programu zapisane kolory z pliku. Aby wartości
+	zapisać do pliku trzeba nacisnąć przycisk save. W ten sposób przy następnym uruchomieniu programu nie
+	zmienią się.
 
 Pozostałe okna:
 - okno Ranking - wyświetla ranking graczy.
@@ -28,9 +31,13 @@ Pozostałe okna:
 
 Do generowania labiryntu został wykorzystany Depth First Search Algorithm.
 
+Na początku ukazuje się menu głowne aplikacje, gdzie do wyboru mamy 6 przycisków (New game, How to play,
+options, ranking, exit i about).
 Aby zacząć grę trzeba nacisnąć przycisk New game, który przekierowuje nas do strony, na której
 możemy wybrać rozmiar labiryntu a następnie go wygenerować i poruszać się po nim.
 Po jego wygenerowaniu natychmiast zaczyna odliczać się czas. Kiedy uda nam się dotrzeć do wyjścia
-pojawia ukazuje się ekran, na którym widnieją gratulacje i czas w sekundach jaki potrzebowaliśmy
+ukazuje się ekran, na którym widnieją gratulacje i czas w sekundach jaki potrzebowaliśmy
 aby dotrzeć do wyjścia. Następnie możemy zadecydować czy chcemy aby nasz wynik został zapisany
-w rankingu, jeśli tak zostaniemy poproszeni o podanie nazwy gracza.
+w rankingu. Jeśli się zdecydujemy zostaniemy poproszeni o podanie nazwy gracza, a następnie nasz wynik w postaci:
+(miejsce, nazwa gracza | czas jaki potrzebowaliśmy aby znaleźć wyjście | wymiary labiryntu). Ranking jest zapisywany do pliku
+o nazwie: "Highscores.sqlite". W rankingu możemy wyszukiwać wynik po nazwie gracza.
